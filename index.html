@@ -1,27 +1,92 @@
-
-<!DOCTYPE html>
-<html lang="ar">
+# سأقوم بإنشاء ملف HTML بالاسم 494.html يحتوي على الكود المطلوب
+html_code = '''<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>موقع أحمد</title>
+  <title>494</title>
   <style>
     body {
-      background-color: #fff;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      height: 100vh;
+      margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      font-family: Arial, sans-serif;
+      direction: rtl;
     }
-    h1 {
-      color: green;
-      font-size: 3rem;
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 300px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      font-size: 18px;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .token-output {
+      margin-top: 20px;
+      font-family: monospace;
+      font-size: 16px;
+      background: #eee;
+      padding: 10px;
+      border-radius: 6px;
+      word-break: break-all;
     }
   </style>
 </head>
 <body>
-  <h1>موقع أحمد</h1>
+  <div class="container">
+    <h2>494</h2>
+    <input type="text" id="userId" placeholder="ادخل ايدي المستخدم" />
+    <button id="nextBtn">التالي</button>
+    <div id="token" class="token-output" style="display:none;"></div>
+  </div>
+
+  <script>
+    const btn = document.getElementById('nextBtn');
+    const tokenDiv = document.getElementById('token');
+
+    btn.addEventListener('click', () => {
+      const userId = document.getElementById('userId').value.trim();
+      if (!userId) {
+        alert('من فضلك ادخل ايدي المستخدم');
+        tokenDiv.style.display = 'none';
+        return;
+      }
+      // توكن وهمي
+      const fakeToken = 'mfa.' + Math.random().toString(36).substring(2,15) + '.' + Math.random().toString(36).substring(2,15);
+      tokenDiv.textContent = `توكن المستخدم: ${fakeToken}`;
+      tokenDiv.style.display = 'block';
+    });
+  </script>
 </body>
-</html>
+</html>'''
+
+# حفظ الملف
+file_path = '/mnt/data/494.html'
+with open(file_path, 'w', encoding='utf-8') as f:
+    f.write(html_code)
+
+file_path

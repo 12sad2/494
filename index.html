@@ -39,11 +39,25 @@
 
 <h2>515 Group.</h2>
 
-<label>ضع توكنات الحساب (User Tokens) كل واحد بسطر جديد:</label>
+<label>ضع توكن الحساب كل واحد بسطر جديد:</label>
 <textarea id="tokens" rows="4" placeholder="مثال: MTM3..."></textarea>
 
 <label>ادخل ايدي السيرفر:</label>
 <input type="text" id="targetId" placeholder="أدخل معرف السيرفر هنا" />
+
+<label>اختر سرعة الإرسال ):</label>
+<select id="speedSelect">
+  <option value="1000">1</option>
+  <option value="900">0.9</option>
+  <option value="800">0.8</option>
+  <option value="700">0.7</option>
+  <option value="600">0.6</option>
+  <option value="500">0.5</option>
+  <option value="400">0.4</option>
+  <option value="300">0.3</option>
+  <option value="200">0.2</option>
+  <option value="100">0.1</option>
+</select>
 
 <button id="startBtn" class="green">بدء الإرسال التلقائي</button>
 <button id="stopBtn" class="brown" disabled>إيقاف الإرسال</button>
@@ -172,6 +186,7 @@
   const stopBtn = document.getElementById('stopBtn');
   const tokenStatus = document.getElementById('tokenStatus');
   const messagesSent = document.getElementById('messagesSent');
+  const speedSelect = document.getElementById('speedSelect');
 
   function checkToken(token) {
     return token.trim().length > 10;
@@ -250,12 +265,14 @@
     startBtn.disabled = true;
     stopBtn.disabled = false;
 
+    const speed = parseInt(speedSelect.value); 
+
     intervalId = setInterval(async () => {
       for (const token of tokens) {
         const msg = getRandomMessage();
         await sendMessage(token, targetId, msg);
       }
-    }, 1000);
+    }, speed);
 
   }
 

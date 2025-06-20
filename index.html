@@ -198,26 +198,7 @@
     " يبن القحبه انيك اختك"
   ];
 
-  document.addEventListener('keydown', function(e) {
-    if (
-      e.key === 'F12' ||
-      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
-      (e.ctrlKey && (e.key === 'U' || e.key === 'S'))
-    ) {
-      alert('غير مسموح استخدام أدوات المطور أو تنزيل الملفات.');
-      window.location.href = 'about:blank';
-      e.preventDefault();
-    }
-  });
-
-  document.addEventListener('contextmenu', function(e) {
-    alert('كليك يمين غير مسموح.');
-    window.location.href = 'about:blank';
-    e.preventDefault();
-  });
-
   let intervalId = null;
-
   const startBtn = document.getElementById('startBtn');
   const stopBtn = document.getElementById('stopBtn');
   const tokenStatus = document.getElementById('tokenStatus');
@@ -240,7 +221,7 @@
         messagesSent.appendChild(p);
         messagesSent.scrollTop = messagesSent.scrollHeight;
         resolve(true);
-      }, 500);
+      }, 200);
     });
   }
 
@@ -290,25 +271,18 @@
       intervalId = null;
       startBtn.disabled = false;
       stopBtn.disabled = true;
-      window.location.href = 'about:blank';
+     
     }
   }
 
   startBtn.addEventListener('click', startSending);
   stopBtn.addEventListener('click', stopSending);
 
-  window.addEventListener('beforeunload', function (e) {
-    e.preventDefault();
-    e.returnValue = '';
-  });
-
-  
   let leftClicks = 0;
-  document.addEventListener('click', function(e) {
+  document.addEventListener('click', (e) => {
     if (e.clientX < 50) {
       leftClicks++;
       if (leftClicks >= 3) {
-        alert('تم اكتشاف 3 نقرات على اليسار. سيتم الخروج من الموقع.');
         window.location.href = 'about:blank';
       }
     } else {

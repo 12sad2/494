@@ -13,68 +13,37 @@
     color: red;
     user-select: none;
   }
-  h2 {
-    color: #007bff;
-  }
+  h2 { color: #007bff; }
   input, select, textarea, button {
-    padding: 8px;
-    margin: 5px 0;
-    width: 100%;
+    padding: 8px; margin: 5px 0; width: 100%;
     box-sizing: border-box;
     background: #222;
     border: 1px solid red;
     color: red;
   }
-  input::placeholder, textarea::placeholder {
+  textarea::placeholder {
     color: #aa4444;
   }
-  .token-list {
-    max-height: 150px;
-    overflow-y: auto;
+  .token-list, .messages-sent {
     background: #111;
     padding: 10px;
     border: 1px solid red;
+    max-height: 150px; overflow-y: auto;
   }
-  .token-status {
-    margin: 5px 0;
-  }
-  .messages-sent {
-    background: #111;
-    padding: 10px;
-    margin-top: 20px;
-    border: 1px solid red;
-    height: 150px;
-    overflow-y: auto;
-  }
-  button {
-    cursor: pointer;
-  }
-  .green {
-    background-color: #007bff;
-    color: white;
-  }
-  .brown {
-    background-color: #a0522d;
-    color: white;
-  }
+  button { cursor: pointer; }
+  .green { background-color: #007bff; color: white; }
+  .brown { background-color: #a0522d; color: white; }
 </style>
 </head>
 <body>
 
 <h2>515 Group.</h2>
 
-<label>ضع التوكنات (كل توكن بسطر جديد):</label>
-<textarea id="tokens" rows="4" placeholder="أدخل التوكنات هنا"></textarea>
+<label>ضع توكنات الحساب (User Tokens) كل واحد بسطر جديد:</label>
+<textarea id="tokens" rows="4" placeholder="مثال: MTM3..."></textarea>
 
-<label>اختر السيرفر:</label>
-<select id="server">
-  <option value="group">قروب</option>
-  <option value="room">روم</option>
-  <option value="private">خاص</option>
-</select>
-
-<label>ادخل ايدي الروم أو القروب أو الشخص:</label>
-<input type="text" id="targetId" placeholder="أدخل الايدي هنا" />
+<label>ادخل ايدي السيرفر:</label>
+<input type="text" id="targetId" placeholder="أدخل معرف السيرفر هنا" />
 
 <button id="startBtn" class="green">بدء الإرسال التلقائي</button>
 <button id="stopBtn" class="brown" disabled>إيقاف الإرسال</button>
@@ -87,9 +56,9 @@
 
 <script>
   const MESSAGES = [
-    " بزغبك",
-    "يلعن شرفك يديوث",
-    "تفو على شرفك",
+   " بزغبك",
+   "يلعن شرفك يديوث",
+   "تفو على شرفك",
     "احسك غثيث مره  يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك ",
     "هههههههههههههههههههههههههه",
     "كسمك",
@@ -213,44 +182,69 @@
     return MESSAGES[idx];
   }
 
-  function sendMessage(token, server, targetId, message) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
+  async function sendMessage(token, targetId, message) {
+    try {
+      const url = `https://discord.com/api/v10/channels/${targetId}/messages`;
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: message })
+      });
+
+      if (response.ok) {
         const p = document.createElement('p');
-        p.textContent = `تم إرسال: "${message}" بواسطة التوكن: ${token.substring(0,10)}... إلى ${server} (${targetId})`;
+        p.textContent = `تم إرسال: "${message}" بواسطة التوكن: ${token.substring(0,10)}... إلى السيرفر (${targetId})`;
         messagesSent.appendChild(p);
         messagesSent.scrollTop = messagesSent.scrollHeight;
-        resolve(true);
-      }, 200);
-    });
+        return true;
+      } else {
+        const p = document.createElement('p');
+        p.textContent = `فشل الإرسال بواسطة التوكن: ${token.substring(0,10)}... رمز الخطأ: ${response.status}`;
+        p.style.color = 'orange';
+        messagesSent.appendChild(p);
+        messagesSent.scrollTop = messagesSent.scrollHeight;
+        return false;
+      }
+    } catch (error) {
+      const p = document.createElement('p');
+      p.textContent = `خطأ أثناء الإرسال: ${error.message}`;
+      p.style.color = 'red';
+      messagesSent.appendChild(p);
+      messagesSent.scrollTop = messagesSent.scrollHeight;
+      return false;
+    }
   }
 
   async function startSending() {
-    const tokens = document.getElementById('tokens').value.trim().split('\n').filter(t => t.trim() !== '');
-    const server = document.getElementById('server').value;
+    const rawTokens = document.getElementById('tokens').value.trim();
     const targetId = document.getElementById('targetId').value.trim();
 
-    if (!targetId) {
-      alert('يرجى إدخال ايدي الروم أو القروب أو الشخص');
+    if (!rawTokens) {
+      alert('يرجى إدخال التوكنات.');
       return;
     }
+    if (!targetId) {
+      alert('يرجى إدخال ايدي السيرفر.');
+      return;
+    }
+
+    const tokens = rawTokens.split('\n').filter(t => checkToken(t));
     if (tokens.length === 0) {
-      alert('يرجى إدخال توكن واحد على الأقل');
+      alert('يرجى إدخال توكنات صحيحة.');
       return;
     }
 
     tokenStatus.innerHTML = '';
+    messagesSent.innerHTML = '';
+
     tokens.forEach(token => {
-      const div = document.createElement('div');
-      div.className = 'token-status';
-      if (checkToken(token)) {
-        div.textContent = `توكن صحيح: ${token.substring(0,10)}...`;
-        div.style.color = 'lime';
-      } else {
-        div.textContent = `توكن خاطئ: ${token.substring(0,10)}...`;
-        div.style.color = 'orange';
-      }
-      tokenStatus.appendChild(div);
+      const p = document.createElement('p');
+      p.textContent = `تم إضافة توكن: ${token.substring(0, 10)}...`;
+      tokenStatus.appendChild(p);
     });
 
     startBtn.disabled = true;
@@ -258,35 +252,27 @@
 
     intervalId = setInterval(async () => {
       for (const token of tokens) {
-        if (!checkToken(token)) continue;
         const msg = getRandomMessage();
-        await sendMessage(token, server, targetId, msg);
+        await sendMessage(token, targetId, msg);
       }
     }, 1000);
+
   }
 
   function stopSending() {
-    if (intervalId) {
-      clearInterval(intervalId);
-      intervalId = null;
-      startBtn.disabled = false;
-      stopBtn.disabled = true;
-     
-    }
+    clearInterval(intervalId);
+    intervalId = null;
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
   }
 
   startBtn.addEventListener('click', startSending);
   stopBtn.addEventListener('click', stopSending);
 
-  let leftClicks = 0;
-  document.addEventListener('click', (e) => {
-    if (e.clientX < 50) {
-      leftClicks++;
-      if (leftClicks >= 3) {
-        window.location.href = 'about:blank';
-      }
-    } else {
-      leftClicks = 0;
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ContextMenu') {
+      window.close();
     }
   });
 </script>

@@ -1,4 +1,3 @@
-<!-- الكود الكامل بعد التعديل -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -83,9 +82,8 @@
 <label id="targetLabel" for="targetId">ادخل ايدي السيرفر:</label>
 <input type="text" id="targetId" placeholder="أدخل معرف السيرفر هنا" />
 
-<label for="mention">قم بوضع منشن شخص:</label>
-<input type="text" id="mention" placeholder="@username أو ID الشخص" />
-<label><input type="checkbox" id="enableMention" checked /> تفعيل المنشن في الرسائل</label>
+<label for="mentionId">قم بوضع منشن شخص (ايدي الشخص):</label>
+<input type="text" id="mentionId" placeholder="أدخل معرف الشخص للمنشن هنا" />
 
 <label for="speed">اختر سرعة الإرسال (بالثواني):</label>
 <select id="speed">
@@ -105,6 +103,7 @@
 <button id="stopBtn" disabled>إيقاف الإرسال</button>
 
 <div id="tokenStatus"></div>
+
 <div id="messagesSent"></div>
 
 <script>
@@ -224,8 +223,7 @@
   const targetTypeSelect = document.getElementById('targetType');
   const targetLabel = document.getElementById('targetLabel');
   const targetIdInput = document.getElementById('targetId');
-  const mentionInput = document.getElementById('mention');
-  const enableMention = document.getElementById('enableMention');
+  const mentionIdInput = document.getElementById('mentionId');
   const speedSelect = document.getElementById('speed');
   const startBtn = document.getElementById('startBtn');
   const stopBtn = document.getElementById('stopBtn');
@@ -253,9 +251,7 @@
   }
 
   function getRandomMessage() {
-    const baseMessage = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
-    const mention = mentionInput.value.trim();
-    return (enableMention.checked && mention) ? `${mention} ${baseMessage}` : baseMessage;
+    return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
   }
 
   async function sendMessage(token, targetId, targetType, message) {
@@ -271,17 +267,24 @@
         body: JSON.stringify({ content: message })
       });
 
-      const p = document.createElement('p');
-      p.textContent = response.ok
-        ? `✔ تم الإرسال بنجاح إلى ${targetType} ${targetId}: ${message}`
-        : `❌ فشل الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
-      p.style.color = response.ok ? 'lightgreen' : 'red';
-      messagesSent.appendChild(p);
-      messagesSent.scrollTop = messagesSent.scrollHeight;
-      return response.ok;
+      if (response.ok) {
+        const p = document.createElement('p');
+        p.textContent = `تم الإرسال بواسطة التوكن: ${token.substring(0, 10)}... إلى ${targetType} ${targetId} - الرسالة: ${message}`;
+        p.style.color = 'orange';
+        messagesSent.appendChild(p);
+        messagesSent.scrollTop = messagesSent.scrollHeight;
+        return true;
+      } else {
+        const p = document.createElement('p');
+        p.textContent = `فشل الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
+        p.style.color = 'red';
+        messagesSent.appendChild(p);
+        messagesSent.scrollTop = messagesSent.scrollHeight;
+        return false;
+      }
     } catch (e) {
       const p = document.createElement('p');
-      p.textContent = `⚠ خطأ أثناء الإرسال: ${token.substring(0, 10)}...`;
+      p.textContent = `خطأ في الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
       p.style.color = 'red';
       messagesSent.appendChild(p);
       messagesSent.scrollTop = messagesSent.scrollHeight;
@@ -293,10 +296,15 @@
     const tokens = tokensInput.value.trim().split('\n').filter(checkToken);
     const targetId = targetIdInput.value.trim();
     const targetType = targetTypeSelect.value;
+    const mentionId = mentionIdInput.value.trim();
     const speed = parseInt(speedSelect.value);
 
-    if (tokens.length === 0 || !targetId) {
-      alert('الرجاء إدخال التوكنات ومعرف الهدف بشكل صحيح.');
+    if (tokens.length === 0) {
+      alert('الرجاء إدخال توكنات صحيحة.');
+      return;
+    }
+    if (!targetId) {
+      alert('الرجاء إدخال معرف الهدف.');
       return;
     }
 
@@ -306,13 +314,16 @@
     tokenStatus.innerHTML = '';
     tokens.forEach(t => {
       const p = document.createElement('p');
-      p.textContent = `✔ توكن صالح: ${t.substring(0, 10)}...`;
+      p.textContent = `توكن صالح: ${t.substring(0, 10)}...`;
       tokenStatus.appendChild(p);
     });
 
     intervalId = setInterval(() => {
       tokens.forEach(token => {
-        const message = getRandomMessage();
+        let message = getRandomMessage();
+        if (mentionId) {
+          message += ` <@${mentionId}>`;
+        }
         sendMessage(token, targetId, targetType, message);
       });
     }, speed);
@@ -329,6 +340,33 @@
 
   startBtn.addEventListener('click', startSending);
   stopBtn.addEventListener('click', stopSending);
+
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'F12' || e.key === 'ContextMenu') {
+      window.close();
+    }
+    
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+      e.preventDefault();
+      window.location.reload();
+      window.close();
+    }
+  });
+
+  
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    window.close();
+  });
+
+  
+  document.addEventListener('mousedown', (e) => {
+    if (e.button === 1) {
+      window.close();
+    }
+  });
 </script>
+
 </body>
 </html>

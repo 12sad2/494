@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>موقع 515 المجموعة</title>
+<title>515 Group.</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -11,10 +11,10 @@
     padding: 20px;
     background: black;
     color: red;
-    user-select: none; /* منع التحديد */
+    user-select: none;
   }
   h2 {
-    color: #007bff; /* لون أزرق */
+    color: #007bff;
   }
   input, select, textarea, button {
     padding: 8px;
@@ -50,7 +50,7 @@
     cursor: pointer;
   }
   .green {
-    background-color: #007bff; /* زر أزرق */
+    background-color: #007bff;
     color: white;
   }
   .brown {
@@ -61,7 +61,7 @@
 </head>
 <body>
 
-<h2>موقع 515 المجموعة</h2>
+<h2>515 Group.</h2>
 
 <label>ضع التوكنات (كل توكن بسطر جديد):</label>
 <textarea id="tokens" rows="4" placeholder="أدخل التوكنات هنا"></textarea>
@@ -76,25 +76,6 @@
 <label>ادخل ايدي الروم أو القروب أو الشخص:</label>
 <input type="text" id="targetId" placeholder="أدخل الايدي هنا" />
 
-<label>اختر الرسائل المرسلة (يمكن تعديلها):</label>
-<textarea id="messages" rows="4">يارب
-بحبك
-</textarea>
-
-<label>اختر سرعة الإرسال (ثواني بين كل رسالة):</label>
-<select id="speed">
-  <option value="1">1</option>
-  <option value="0.9">0.9</option>
-  <option value="0.8">0.8</option>
-  <option value="0.7">0.7</option>
-  <option value="0.6">0.6</option>
-  <option value="0.5">0.5</option>
-  <option value="0.4">0.4</option>
-  <option value="0.3">0.3</option>
-  <option value="0.2">0.2</option>
-  <option value="0.1">0.1</option>
-</select>
-
 <button id="startBtn" class="green">بدء الإرسال التلقائي</button>
 <button id="stopBtn" class="brown" disabled>إيقاف الإرسال</button>
 
@@ -105,7 +86,118 @@
 <div id="messagesSent" class="messages-sent"></div>
 
 <script>
-  
+  const MESSAGES = [
+    " بزغبك",
+    "يلعن شرفك يديوث",
+    "تفو على شرفك",
+    "احسك غثيث مره  يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك ",
+    "هههههههههههههههههههههههههه",
+    "كسمك",
+    "تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة ",
+    "يديوث",
+    "بضرب كس اختك ياخو القحبه  افجر رحم امك",
+    "امك كلبه ازباب.",
+    "يبن 200 شرموطه",
+    "ازحف على امك ",
+    "اختك كلببه عند رجوولي",
+    "اجلللخ عليك",
+    "يمخنث يعبد الازباب تعال مصصص",
+    "امك ممثله افلام سكس ",
+    "امك قحبه قروبات المكس",
+    "امك بلمقحبه لها اصوات",
+    "اصمل كسمك يجديدد",
+    "يبن اكبر لبوه",
+    "يعاق كسمك احترم ابوك",
+    "يعرص الطش امكك",
+    "يمكسور يضعيف النفس",
+    "يديوث",
+    "اغتصب خواتك",
+    "كس خواتك",
+    "يبن المديثه",
+    "يلعن رحم امك",
+    "امك صارت حامل يبن الشرموطه",
+    "ازغب امك",
+    "جيب امك انيكها",
+    "اوف كسمك",
+    "يمهان",
+    "يلعن اختك",
+    "انا فحل امك",
+    "انيك ابوك",
+    "انيك اخوك",
+    "انيكك امكك يبن الزنا",
+    "الدياثه تمشي بعروقكم",
+    "ادقك يبن الشرموطه",
+    "يطفل يبن القحبه",
+    "اوف ابن القحبه ",
+    "تمحن يشرموط",
+    "تمحن واعطيك نيترو يخنيث",
+    "من فحل امك",
+    "واو يشرموط تنبح",
+    "نادي امك زبي قام يبيها تقعد عليه",
+    "انيكك يخنيث يقواد",
+    "اركب عليه كسمك",
+    "يلعن امك يديوث",
+    "انبح يبن الشرموطه",
+    "انبح انبح لفحل امك",
+    "انا نايك امك يبن الشرموطه",
+    "امك قاعده تنبح من كثر مافتحوها",
+    "انيك امك بنعال ",
+    "اتفل بكسمك يبن الشرموطه",
+    "تمحن يورعي",
+    "انيك امك يطفل",
+    "انيك امك يديوث",
+    "يبن القحبه",
+    "انيك امك",
+    "يشرموط ",
+    "يديوث ",
+    "اختفووو كسمك",
+    " امك على زبي ",
+    "يبن الشرموطه",
+    "يبن الزنا",
+    "يبن القحبه",
+    "امك قحبتي",
+    "يلعن امك يبن الشرموطه",
+    "الحقق امك قاعده تتمحن عشان تجيب فلوسس",
+    "اختك قاعده تعرض عشان تجيبلك فلوس يفقير",
+    "انيك امك يشرموط",
+    "يبن المتعه",
+    "ازغب خواتك ",
+    " انحر امك",
+    " العن رحم امك",
+    " امك تمصلي",
+    "اختك تلحس زبي",
+    " روح ابكي",
+    " بمناسبه مرور ثلاث سنوات على زواجي انا وامك بطلقها وزاتزوج اختك",
+    " رد يفحل خواتك",
+    " اشفشف امك",
+    " انيكك سبعاوي",
+    "نخ يكسمك ",
+    " جاوب يمخنث",
+    " امش لانيك امك",
+    " يمدعوس",
+    " انا قد شفت اسامي قبايل غريبه  لكن بالله ليه مكتوب بهويتك ال مخانيث",
+    "يخول ",
+    " زبي قام على كسمك",
+    " اخخخ زبيي قامم جب امكك",
+    " تحب الطويل صح",
+    " اسال امك انا مشترك عندها واليوم ماعرضت ليه؟",
+    " كيف امك جابت عاق كذا",
+    " والله مهان",
+    " فحول امك هنا",
+    " اهربب كسمك",
+    " روضت امك ماتبيني اروضك",
+    " ازغب اختك",
+    " سبعاوي امك يقواد",
+    "انبح يهارب ",
+    " انيك امك واختك",
+    " اكسر عينك كسمك",
+    " كيف امك جابت عاق زيك",
+    " والله ماش مهان",
+    " انيك ابوك",
+    " ابوك ناك امك",
+    " يبن القحبه انيك اختك"
+  ];
+
   document.addEventListener('keydown', function(e) {
     if (
       e.key === 'F12' ||
@@ -113,23 +205,18 @@
       (e.ctrlKey && (e.key === 'U' || e.key === 'S'))
     ) {
       alert('غير مسموح استخدام أدوات المطور أو تنزيل الملفات.');
-      window.location.href = 'about:blank'; // يخرج من الموقع
+      window.location.href = 'about:blank';
       e.preventDefault();
     }
   });
 
-  // منع كليك يمين
   document.addEventListener('contextmenu', function(e) {
     alert('كليك يمين غير مسموح.');
-    window.location.href = 'about:blank'; // يخرج من الموقع
+    window.location.href = 'about:blank';
     e.preventDefault();
   });
 
-  // منع حفظ الصفحة (Ctrl+S) + منع تنزيل ملفات (مثلاً زر تحميل)
-  // يمكن إضافة هنا حسب الحاجة
-
   let intervalId = null;
-  let currentIndex = 0;
 
   const startBtn = document.getElementById('startBtn');
   const stopBtn = document.getElementById('stopBtn');
@@ -138,6 +225,11 @@
 
   function checkToken(token) {
     return token.trim().length > 10;
+  }
+
+  function getRandomMessage() {
+    const idx = Math.floor(Math.random() * MESSAGES.length);
+    return MESSAGES[idx];
   }
 
   function sendMessage(token, server, targetId, message) {
@@ -156,8 +248,6 @@
     const tokens = document.getElementById('tokens').value.trim().split('\n').filter(t => t.trim() !== '');
     const server = document.getElementById('server').value;
     const targetId = document.getElementById('targetId').value.trim();
-    const messages = document.getElementById('messages').value.trim().split('\n').filter(m => m.trim() !== '');
-    const speed = parseFloat(document.getElementById('speed').value) * 1000;
 
     if (!targetId) {
       alert('يرجى إدخال ايدي الروم أو القروب أو الشخص');
@@ -165,10 +255,6 @@
     }
     if (tokens.length === 0) {
       alert('يرجى إدخال توكن واحد على الأقل');
-      return;
-    }
-    if (messages.length === 0) {
-      alert('يرجى إدخال رسالة واحدة على الأقل');
       return;
     }
 
@@ -189,17 +275,13 @@
     startBtn.disabled = true;
     stopBtn.disabled = false;
 
-    currentIndex = 0;
-
     intervalId = setInterval(async () => {
-      if (currentIndex >= messages.length) currentIndex = 0;
-
       for (const token of tokens) {
         if (!checkToken(token)) continue;
-        await sendMessage(token, server, targetId, messages[currentIndex]);
+        const msg = getRandomMessage();
+        await sendMessage(token, server, targetId, msg);
       }
-      currentIndex++;
-    }, speed);
+    }, 1000);
   }
 
   function stopSending() {
@@ -208,7 +290,6 @@
       intervalId = null;
       startBtn.disabled = false;
       stopBtn.disabled = true;
-      
       window.location.href = 'about:blank';
     }
   }
@@ -216,12 +297,23 @@
   startBtn.addEventListener('click', startSending);
   stopBtn.addEventListener('click', stopSending);
 
-  
   window.addEventListener('beforeunload', function (e) {
-    
     e.preventDefault();
     e.returnValue = '';
-   
+  });
+
+  
+  let leftClicks = 0;
+  document.addEventListener('click', function(e) {
+    if (e.clientX < 50) {
+      leftClicks++;
+      if (leftClicks >= 3) {
+        alert('تم اكتشاف 3 نقرات على اليسار. سيتم الخروج من الموقع.');
+        window.location.href = 'about:blank';
+      }
+    } else {
+      leftClicks = 0;
+    }
   });
 </script>
 

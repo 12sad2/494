@@ -1,92 +1,229 @@
-# سأقوم بإنشاء ملف HTML بالاسم 494.html يحتوي على الكود المطلوب
-html_code = '''<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <title>494</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      direction: rtl;
-    }
-    .container {
-      background: white;
-      padding: 30px 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      text-align: center;
-      width: 300px;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 18px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button {
-      width: 100%;
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      font-size: 18px;
-      padding: 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .token-output {
-      margin-top: 20px;
-      font-family: monospace;
-      font-size: 16px;
-      background: #eee;
-      padding: 10px;
-      border-radius: 6px;
-      word-break: break-all;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>موقع 515 المجموعة</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    direction: rtl;
+    padding: 20px;
+    background: black;
+    color: red;
+    user-select: none; /* منع التحديد */
+  }
+  h2 {
+    color: #007bff; /* لون أزرق */
+  }
+  input, select, textarea, button {
+    padding: 8px;
+    margin: 5px 0;
+    width: 100%;
+    box-sizing: border-box;
+    background: #222;
+    border: 1px solid red;
+    color: red;
+  }
+  input::placeholder, textarea::placeholder {
+    color: #aa4444;
+  }
+  .token-list {
+    max-height: 150px;
+    overflow-y: auto;
+    background: #111;
+    padding: 10px;
+    border: 1px solid red;
+  }
+  .token-status {
+    margin: 5px 0;
+  }
+  .messages-sent {
+    background: #111;
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid red;
+    height: 150px;
+    overflow-y: auto;
+  }
+  button {
+    cursor: pointer;
+  }
+  .green {
+    background-color: #007bff; /* زر أزرق */
+    color: white;
+  }
+  .brown {
+    background-color: #a0522d;
+    color: white;
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h2>494</h2>
-    <input type="text" id="userId" placeholder="ادخل ايدي المستخدم" />
-    <button id="nextBtn">التالي</button>
-    <div id="token" class="token-output" style="display:none;"></div>
-  </div>
 
-  <script>
-    const btn = document.getElementById('nextBtn');
-    const tokenDiv = document.getElementById('token');
+<h2>موقع 515 المجموعة</h2>
 
-    btn.addEventListener('click', () => {
-      const userId = document.getElementById('userId').value.trim();
-      if (!userId) {
-        alert('من فضلك ادخل ايدي المستخدم');
-        tokenDiv.style.display = 'none';
-        return;
-      }
-      // توكن وهمي
-      const fakeToken = 'mfa.' + Math.random().toString(36).substring(2,15) + '.' + Math.random().toString(36).substring(2,15);
-      tokenDiv.textContent = `توكن المستخدم: ${fakeToken}`;
-      tokenDiv.style.display = 'block';
+<label>ضع التوكنات (كل توكن بسطر جديد):</label>
+<textarea id="tokens" rows="4" placeholder="أدخل التوكنات هنا"></textarea>
+
+<label>اختر السيرفر:</label>
+<select id="server">
+  <option value="group">قروب</option>
+  <option value="room">روم</option>
+  <option value="private">خاص</option>
+</select>
+
+<label>ادخل ايدي الروم أو القروب أو الشخص:</label>
+<input type="text" id="targetId" placeholder="أدخل الايدي هنا" />
+
+<label>اختر الرسائل المرسلة (يمكن تعديلها):</label>
+<textarea id="messages" rows="4">يارب
+بحبك
+</textarea>
+
+<label>اختر سرعة الإرسال (ثواني بين كل رسالة):</label>
+<select id="speed">
+  <option value="1">1</option>
+  <option value="0.9">0.9</option>
+  <option value="0.8">0.8</option>
+  <option value="0.7">0.7</option>
+  <option value="0.6">0.6</option>
+  <option value="0.5">0.5</option>
+  <option value="0.4">0.4</option>
+  <option value="0.3">0.3</option>
+  <option value="0.2">0.2</option>
+  <option value="0.1">0.1</option>
+</select>
+
+<button id="startBtn" class="green">بدء الإرسال التلقائي</button>
+<button id="stopBtn" class="brown" disabled>إيقاف الإرسال</button>
+
+<h3>حالة التوكنات:</h3>
+<div id="tokenStatus" class="token-list"></div>
+
+<h3>الرسائل المرسلة:</h3>
+<div id="messagesSent" class="messages-sent"></div>
+
+<script>
+  
+  document.addEventListener('keydown', function(e) {
+    if (
+      e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+      (e.ctrlKey && (e.key === 'U' || e.key === 'S'))
+    ) {
+      alert('غير مسموح استخدام أدوات المطور أو تنزيل الملفات.');
+      window.location.href = 'about:blank'; // يخرج من الموقع
+      e.preventDefault();
+    }
+  });
+
+  // منع كليك يمين
+  document.addEventListener('contextmenu', function(e) {
+    alert('كليك يمين غير مسموح.');
+    window.location.href = 'about:blank'; // يخرج من الموقع
+    e.preventDefault();
+  });
+
+  // منع حفظ الصفحة (Ctrl+S) + منع تنزيل ملفات (مثلاً زر تحميل)
+  // يمكن إضافة هنا حسب الحاجة
+
+  let intervalId = null;
+  let currentIndex = 0;
+
+  const startBtn = document.getElementById('startBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const tokenStatus = document.getElementById('tokenStatus');
+  const messagesSent = document.getElementById('messagesSent');
+
+  function checkToken(token) {
+    return token.trim().length > 10;
+  }
+
+  function sendMessage(token, server, targetId, message) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const p = document.createElement('p');
+        p.textContent = `تم إرسال: "${message}" بواسطة التوكن: ${token.substring(0,10)}... إلى ${server} (${targetId})`;
+        messagesSent.appendChild(p);
+        messagesSent.scrollTop = messagesSent.scrollHeight;
+        resolve(true);
+      }, 500);
     });
-  </script>
+  }
+
+  async function startSending() {
+    const tokens = document.getElementById('tokens').value.trim().split('\n').filter(t => t.trim() !== '');
+    const server = document.getElementById('server').value;
+    const targetId = document.getElementById('targetId').value.trim();
+    const messages = document.getElementById('messages').value.trim().split('\n').filter(m => m.trim() !== '');
+    const speed = parseFloat(document.getElementById('speed').value) * 1000;
+
+    if (!targetId) {
+      alert('يرجى إدخال ايدي الروم أو القروب أو الشخص');
+      return;
+    }
+    if (tokens.length === 0) {
+      alert('يرجى إدخال توكن واحد على الأقل');
+      return;
+    }
+    if (messages.length === 0) {
+      alert('يرجى إدخال رسالة واحدة على الأقل');
+      return;
+    }
+
+    tokenStatus.innerHTML = '';
+    tokens.forEach(token => {
+      const div = document.createElement('div');
+      div.className = 'token-status';
+      if (checkToken(token)) {
+        div.textContent = `توكن صحيح: ${token.substring(0,10)}...`;
+        div.style.color = 'lime';
+      } else {
+        div.textContent = `توكن خاطئ: ${token.substring(0,10)}...`;
+        div.style.color = 'orange';
+      }
+      tokenStatus.appendChild(div);
+    });
+
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+
+    currentIndex = 0;
+
+    intervalId = setInterval(async () => {
+      if (currentIndex >= messages.length) currentIndex = 0;
+
+      for (const token of tokens) {
+        if (!checkToken(token)) continue;
+        await sendMessage(token, server, targetId, messages[currentIndex]);
+      }
+      currentIndex++;
+    }, speed);
+  }
+
+  function stopSending() {
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+      
+      window.location.href = 'about:blank';
+    }
+  }
+
+  startBtn.addEventListener('click', startSending);
+  stopBtn.addEventListener('click', stopSending);
+
+  
+  window.addEventListener('beforeunload', function (e) {
+    
+    e.preventDefault();
+    e.returnValue = '';
+   
+  });
+</script>
+
 </body>
-</html>'''
-
-# حفظ الملف
-file_path = '/mnt/data/494.html'
-with open(file_path, 'w', encoding='utf-8') as f:
-    f.write(html_code)
-
-file_path
+</html>

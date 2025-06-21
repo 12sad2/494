@@ -112,6 +112,7 @@
   const tokenStatus = document.getElementById('tokenStatus');
   const messagesSent = document.getElementById('messagesSent');
 
+  // رسائل جاهزة قابلة للتعديل من هنا
   const MESSAGES = [
     "يلعن عرضك يديوث",
    "تفو على شرفك",
@@ -317,22 +318,6 @@
 
   startBtn.addEventListener('click', startSending);
   stopBtn.addEventListener('click', stopSending);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'F12' || e.key === 'ContextMenu') window.close();
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
-      e.preventDefault();
-      window.location.reload();
-      window.close();
-    }
-  });
-  document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    window.close();
-  });
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 2 || e.button === 1) window.close();
-  });
 </script>
 
 </body>

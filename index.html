@@ -44,6 +44,12 @@
     #stopBtn {
       background: brown;
     }
+    #tokenStatus {
+      margin-top: 15px;
+    }
+    #tokenStatus p {
+      color: orange;
+    }
     #messagesSent {
       background: #111;
       padding: 10px;
@@ -55,14 +61,30 @@
     p {
       margin: 5px 0;
     }
-    #tokenStatus p {
-      color: orange;
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .green-text {
+      font-weight: bold;
+      color: green;
+    }
+    .red-link {
+      color: red;
+      text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-<h2>اوتو 515 Group</h2>
+<h2>
+  515 Group
+  <span class="green-text">رابط سيرفر الموقع الرسمي ✅ :</span>
+  <a href="https://discord.gg/udXnYvGSnZ" target="_blank" class="red-link">https://discord.gg/udXnYvGSnZ</a>
+</h2>
 
 <label for="tokens">أدخل التوكنات (كل توكن في سطر جديد):</label>
 <textarea id="tokens" placeholder="مثال: MTM3NjUxODI0..."></textarea>
@@ -112,7 +134,7 @@
   const tokenStatus = document.getElementById('tokenStatus');
   const messagesSent = document.getElementById('messagesSent');
 
-  // تقدر تضيف فوق 150 رسالة هنا في المصفوفة بسهولة
+  
   const MESSAGES = [
     "يلعن عرضك يديوث",
    "تفو على شرفك",
@@ -222,6 +244,7 @@
    "يبن القحبه انيك امك",
 
   ];
+
   function getRandomMessage() {
     return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
   }

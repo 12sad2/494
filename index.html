@@ -1,69 +1,64 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>515 Group</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #222;
-    color: white;
-    padding: 20px;
-    direction: rtl;
-  }
-  label, select, input, textarea, button {
-    display: block;
-    margin: 10px 0;
-    width: 100%;
-  }
-  textarea {
-    height: 100px;
-    background: #333;
-    color: white;
-    resize: none;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-  }
-  input, select {
-    padding: 8px;
-    border-radius: 5px;
-    border: none;
-    background: #444;
-    color: white;
-  }
-  button {
-    background: green;
-    color: white;
-    padding: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-  }
-  button:disabled {
-    background: grey;
-    cursor: not-allowed;
-  }
-  #stopBtn {
-    background: brown;
-  }
-  #messagesSent {
-    background: #111;
-    padding: 10px;
-    max-height: 250px;
-    overflow-y: auto;
-    margin-top: 20px;
-    border-radius: 5px;
-  }
-  p {
-    margin: 5px 0;
-  }
-  #tokenStatus p {
-    color: orange;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>515 Group</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: white;
+      padding: 20px;
+      direction: rtl;
+    }
+    label, select, input, textarea, button {
+      display: block;
+      margin: 10px 0;
+      width: 100%;
+    }
+    textarea, input, select {
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+      background: #333;
+      color: white;
+    }
+    textarea {
+      height: 100px;
+      resize: none;
+    }
+    button {
+      background: green;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+    button:disabled {
+      background: grey;
+      cursor: not-allowed;
+    }
+    #stopBtn {
+      background: brown;
+    }
+    #messagesSent {
+      background: #111;
+      padding: 10px;
+      max-height: 250px;
+      overflow-y: auto;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
+    p {
+      margin: 5px 0;
+    }
+    #tokenStatus p {
+      color: orange;
+    }
+  </style>
 </head>
 <body>
 
@@ -79,8 +74,11 @@
   <option value="private">خاص</option>
 </select>
 
-<label id="targetLabel" for="targetId">ادخل ايدي السيرفر:</label>
-<input type="text" id="targetId" placeholder="أدخل معرف السيرفر هنا" />
+<label id="targetLabel" for="targetId">ادخل ايدي الروم:</label>
+<input type="text" id="targetId" placeholder="ادخل ايدي الروم" />
+
+<label for="mentionId">قم بوضع منشن شخص:</label>
+<input type="text" id="mentionId" placeholder="أدخل ايدي الشخص" />
 
 <label for="speed">اختر سرعة الإرسال (بالثواني):</label>
 <select id="speed">
@@ -100,10 +98,20 @@
 <button id="stopBtn" disabled>إيقاف الإرسال</button>
 
 <div id="tokenStatus"></div>
-
 <div id="messagesSent"></div>
 
 <script>
+  const tokensInput = document.getElementById('tokens');
+  const targetTypeSelect = document.getElementById('targetType');
+  const targetLabel = document.getElementById('targetLabel');
+  const targetIdInput = document.getElementById('targetId');
+  const mentionIdInput = document.getElementById('mentionId');
+  const speedSelect = document.getElementById('speed');
+  const startBtn = document.getElementById('startBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const tokenStatus = document.getElementById('tokenStatus');
+  const messagesSent = document.getElementById('messagesSent');
+
   const MESSAGES = [
     "يلعن عرضك يديوث",
    "تفو على شرفك",
@@ -215,15 +223,9 @@
    "يبن القحبه انيك امك "
   ];
 
-  const tokensInput = document.getElementById('tokens');
-  const targetTypeSelect = document.getElementById('targetType');
-  const targetLabel = document.getElementById('targetLabel');
-  const targetIdInput = document.getElementById('targetId');
-  const speedSelect = document.getElementById('speed');
-  const startBtn = document.getElementById('startBtn');
-  const stopBtn = document.getElementById('stopBtn');
-  const tokenStatus = document.getElementById('tokenStatus');
-  const messagesSent = document.getElementById('messagesSent');
+  function getRandomMessage() {
+    return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+  }
 
   let intervalId = null;
 
@@ -245,15 +247,9 @@
     return token.length > 20;
   }
 
-  function getRandomMessage() {
-    return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
-  }
-
-  async function sendMessage(token, targetId, targetType, message) {
-    let endpoint = `https://discord.com/api/v9/channels/${targetId}/messages`;
-
+  async function sendMessage(token, targetId, message) {
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(`https://discord.com/api/v9/channels/${targetId}/messages`, {
         method: 'POST',
         headers: {
           Authorization: token,
@@ -262,43 +258,33 @@
         body: JSON.stringify({ content: message })
       });
 
+      const p = document.createElement('p');
       if (response.ok) {
-        const p = document.createElement('p');
-        p.textContent = `تم الإرسال بواسطة التوكن: ${token.substring(0, 10)}... إلى ${targetType} ${targetId} - الرسالة: ${message}`;
+        p.textContent = `✅ تم الإرسال من: ${token.substring(0, 10)}...`;
         p.style.color = 'orange';
-        messagesSent.appendChild(p);
-        messagesSent.scrollTop = messagesSent.scrollHeight;
-        return true;
       } else {
-        const p = document.createElement('p');
-        p.textContent = `فشل الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
+        p.textContent = `❌ فشل التوكن: ${token.substring(0, 10)}...`;
         p.style.color = 'red';
-        messagesSent.appendChild(p);
-        messagesSent.scrollTop = messagesSent.scrollHeight;
-        return false;
       }
+      messagesSent.appendChild(p);
+      messagesSent.scrollTop = messagesSent.scrollHeight;
     } catch (e) {
       const p = document.createElement('p');
-      p.textContent = `خطأ في الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
+      p.textContent = `⚠️ خطأ في الاتصال: ${token.substring(0, 10)}...`;
       p.style.color = 'red';
       messagesSent.appendChild(p);
       messagesSent.scrollTop = messagesSent.scrollHeight;
-      return false;
     }
   }
 
-  async function startSending() {
+  function startSending() {
     const tokens = tokensInput.value.trim().split('\n').filter(checkToken);
     const targetId = targetIdInput.value.trim();
-    const targetType = targetTypeSelect.value;
+    const mentionId = mentionIdInput.value.trim();
     const speed = parseInt(speedSelect.value);
 
-    if (tokens.length === 0) {
-      alert('الرجاء إدخال توكنات صحيحة.');
-      return;
-    }
-    if (!targetId) {
-      alert('الرجاء إدخال معرف الهدف.');
+    if (tokens.length === 0 || !targetId || !mentionId) {
+      alert('يرجى ملء جميع الحقول المطلوبة.');
       return;
     }
 
@@ -314,8 +300,8 @@
 
     intervalId = setInterval(() => {
       tokens.forEach(token => {
-        const message = getRandomMessage();
-        sendMessage(token, targetId, targetType, message);
+        const message = `<@${mentionId}> ${getRandomMessage()}`;
+        sendMessage(token, targetId, message);
       });
     }, speed);
   }
@@ -332,30 +318,20 @@
   startBtn.addEventListener('click', startSending);
   stopBtn.addEventListener('click', stopSending);
 
-  
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'F12' || e.key === 'ContextMenu') {
-      window.close();
-    }
-    
+    if (e.key === 'F12' || e.key === 'ContextMenu') window.close();
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
       e.preventDefault();
       window.location.reload();
       window.close();
     }
   });
-
-  
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     window.close();
   });
-
-  
   document.addEventListener('mousedown', (e) => {
-    if (e.button === 1) {
-      window.close();
-    }
+    if (e.button === 2 || e.button === 1) window.close();
   });
 </script>
 

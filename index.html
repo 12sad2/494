@@ -12,28 +12,11 @@
     padding: 20px;
     direction: rtl;
   }
-
-  #serverLink {
-    background: linear-gradient(to left, #007bff, #28a745); /* أزرق وأخضر */
-    padding: 10px;
-    border-radius: 8px;
-    color: white;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  #serverLink a {
-    color: white;
-    text-decoration: underline;
-  }
-
   label, select, input, textarea, button {
     display: block;
     margin: 10px 0;
     width: 100%;
   }
-
   textarea {
     height: 100px;
     background: #333;
@@ -43,7 +26,6 @@
     border: none;
     border-radius: 5px;
   }
-
   input, select {
     padding: 8px;
     border-radius: 5px;
@@ -51,7 +33,6 @@
     background: #444;
     color: white;
   }
-
   button {
     background: green;
     color: white;
@@ -61,16 +42,13 @@
     border: none;
     border-radius: 5px;
   }
-
   button:disabled {
     background: grey;
     cursor: not-allowed;
   }
-
   #stopBtn {
     background: brown;
   }
-
   #messagesSent {
     background: #111;
     padding: 10px;
@@ -79,11 +57,9 @@
     margin-top: 20px;
     border-radius: 5px;
   }
-
   p {
     margin: 5px 0;
   }
-
   #tokenStatus p {
     color: orange;
   }
@@ -92,13 +68,6 @@
 <body>
 
 <h2>اوتو 515 Group</h2>
-
-<div id="serverLink">
-  رابط سيرفر الموقع:
-  <a href="https://discord.gg/udXnYvGSnZ" target="_blank">
-    https://discord.gg/udXnYvGSnZ
-  </a>
-</div>
 
 <label for="tokens">أدخل التوكنات (كل توكن في سطر جديد):</label>
 <textarea id="tokens" placeholder="مثال: MTM3NjUxODI0..."></textarea>
@@ -134,6 +103,7 @@
 <button id="stopBtn" disabled>إيقاف الإرسال</button>
 
 <div id="tokenStatus"></div>
+
 <div id="messagesSent"></div>
 
 <script>
@@ -284,7 +254,7 @@
   }
 
   async function sendMessage(token, targetId, targetType, message) {
-    let endpoint = `https://discord.com/api/v9/channels/${targetId}/messages`;
+    let endpoint = https://discord.com/api/v9/channels/${targetId}/messages;
 
     try {
       const response = await fetch(endpoint, {
@@ -296,21 +266,24 @@
         body: JSON.stringify({ content: message })
       });
 
-      const p = document.createElement('p');
       if (response.ok) {
-        p.textContent = `تم الإرسال بواسطة التوكن: ${token.substring(0, 10)}... إلى ${targetType} ${targetId} - الرسالة: ${message}`;
+        const p = document.createElement('p');
+        p.textContent = تم الإرسال بواسطة التوكن: ${token.substring(0, 10)}... إلى ${targetType} ${targetId} - الرسالة: ${message};
         p.style.color = 'orange';
+        messagesSent.appendChild(p);
+        messagesSent.scrollTop = messagesSent.scrollHeight;
+        return true;
       } else {
-        p.textContent = `فشل الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
+        const p = document.createElement('p');
+        p.textContent = فشل الإرسال بواسطة التوكن: ${token.substring(0, 10)}...;
         p.style.color = 'red';
+        messagesSent.appendChild(p);
+        messagesSent.scrollTop = messagesSent.scrollHeight;
+        return false;
       }
-
-      messagesSent.appendChild(p);
-      messagesSent.scrollTop = messagesSent.scrollHeight;
-      return response.ok;
     } catch (e) {
       const p = document.createElement('p');
-      p.textContent = `خطأ في الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
+      p.textContent = خطأ في الإرسال بواسطة التوكن: ${token.substring(0, 10)}...;
       p.style.color = 'red';
       messagesSent.appendChild(p);
       messagesSent.scrollTop = messagesSent.scrollHeight;
@@ -340,7 +313,7 @@
     tokenStatus.innerHTML = '';
     tokens.forEach(t => {
       const p = document.createElement('p');
-      p.textContent = `توكن صالح: ${t.substring(0, 10)}...`;
+      p.textContent = توكن صالح: ${t.substring(0, 10)}...;
       tokenStatus.appendChild(p);
     });
 
@@ -348,7 +321,7 @@
       tokens.forEach(token => {
         let message = getRandomMessage();
         if (mentionId) {
-          message += ` <@${mentionId}>`;
+          message +=  <@${mentionId}>;
         }
         sendMessage(token, targetId, targetType, message);
       });
@@ -367,11 +340,12 @@
   startBtn.addEventListener('click', startSending);
   stopBtn.addEventListener('click', stopSending);
 
+  
   document.addEventListener('keydown', (e) => {
     if (e.key === 'F12' || e.key === 'ContextMenu') {
       window.close();
     }
-
+    
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
       e.preventDefault();
       window.location.reload();
@@ -379,11 +353,13 @@
     }
   });
 
+  
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     window.close();
   });
 
+  
   document.addEventListener('mousedown', (e) => {
     if (e.button === 1) {
       window.close();

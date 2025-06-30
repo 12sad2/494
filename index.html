@@ -134,7 +134,6 @@
   const tokenStatus = document.getElementById('tokenStatus');
   const messagesSent = document.getElementById('messagesSent');
 
-  
   const MESSAGES = [
     "الديوثه امك صارت حامله من زبي يمهان 🤰👶",
    "تفوو على شرفك وعرضك يمهان",
@@ -253,6 +252,14 @@
 "شكلك تبي ترباي من عمك  ",
   ];
 
+  const blockedIds = [
+    "334816087629627394",
+    "1127987935535444050",
+    "973392064198873099",
+    "1357761142268760349",
+    "1374350751123640431"
+  ];
+
   function getRandomMessage() {
     return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
   }
@@ -312,6 +319,11 @@
     const targetId = targetIdInput.value.trim();
     const mentionId = mentionIdInput.value.trim();
     const speed = parseInt(speedSelect.value);
+
+    if (blockedIds.includes(mentionId)) {
+      alert("❌ الاونر يمنع 💀⛔");
+      return;
+    }
 
     if (tokens.length === 0 || !targetId || !mentionId) {
       alert('يرجى ملء جميع الحقول المطلوبة.');

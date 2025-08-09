@@ -77,7 +77,10 @@
 <label for="mentionId">أدخل ايدي الشخص الي بتسبه (واحد فقط):</label>
 <input type="text" id="mentionId" placeholder="123456789012345678" />
 
-<label for="singleRoomId">أدخل ايدي الروم الواحد:</label>
+<label for="serverId">أدخل ايدي السيرفر (لسب الشخص في كل روماته):</label>
+<input type="text" id="serverId" placeholder="123456789012345678" />
+
+<label for="singleRoomId">أدخل ايدي الروم الواحد (اختياري - لسب في روم محدد فقط):</label>
 <input type="text" id="singleRoomId" placeholder="123456789012345678" />
 
 <label for="speed">اختار سرعة النيك (بالثواني):</label>
@@ -95,9 +98,8 @@
 </select>
 
 <button id="startServerBtn">نيك الشخص بكل رومات السيرفر</button>
-<button id="startPrivateBtn">نيك الشخص بالخاص</button>
-<button id="startGroupBtn">نيك الشخص بالقروبات</button>
 <button id="startSingleRoomBtn">نيك الشخص في روم واحد</button>
+<button id="startPrivateBtn">نيك الشخص بالخاص</button>
 <button id="stopBtn" disabled>إيقاف الإرسال</button>
 
 <div id="tokenStatus"></div>
@@ -220,12 +222,12 @@
 
   const tokensInput = document.getElementById('tokens');
   const mentionIdInput = document.getElementById('mentionId');
+  const serverIdInput = document.getElementById('serverId');
   const singleRoomIdInput = document.getElementById('singleRoomId');
   const speedSelect = document.getElementById('speed');
   const startServerBtn = document.getElementById('startServerBtn');
-  const startPrivateBtn = document.getElementById('startPrivateBtn');
-  const startGroupBtn = document.getElementById('startGroupBtn');
   const startSingleRoomBtn = document.getElementById('startSingleRoomBtn');
+  const startPrivateBtn = document.getElementById('startPrivateBtn');
   const stopBtn = document.getElementById('stopBtn');
   const tokenStatus = document.getElementById('tokenStatus');
   const messagesSent = document.getElementById('messagesSent');
@@ -238,18 +240,6 @@
 
   function getRandomMessage() {
     return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
-  }
-
-  async function getUserGuilds(token) {
-    try {
-      const res = await fetch('https://discord.com/api/v9/users/@me/guilds', {
-        headers: { Authorization: token }
-      });
-      if (!res.ok) throw new Error('Failed to get user guilds');
-      return await res.json();
-    } catch {
-      return [];
-    }
   }
 
   async function getGuildChannels(token, guildId) {
@@ -278,20 +268,6 @@
     }
   }
 
-  async function getGroupChannels(token) {
-    try {
-      const guilds = await getUserGuilds(token);
-      let groupChannels = [];
-      for (const guild of guilds) {
-        const channels = await getGuildChannels(token, guild.id);
-        groupChannels = groupChannels.concat(channels);
-      }
-      return groupChannels;
-    } catch {
-      return [];
-    }
-  }
-
   async function sendMessage(token, channelId, message) {
     try {
       const res = await fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
@@ -311,6 +287,7 @@
   async function startSpam(type) {
     const tokens = tokensInput.value.trim().split('\n').filter(checkToken);
     const mentionId = mentionIdInput.value.trim();
+    const serverId = serverIdInput.value.trim();
     const singleRoomId = singleRoomIdInput.value.trim();
     const speed = parseInt(speedSelect.value);
 
@@ -328,10 +305,14 @@
       return;
     }
 
+    if (type === 'server' && !serverId) {
+      alert('حط ايدي السيرفر الي تبي تسبه فيه.');
+      return;
+    }
+
     startServerBtn.disabled = true;
-    startPrivateBtn.disabled = true;
-    startGroupBtn.disabled = true;
     startSingleRoomBtn.disabled = true;
+    startPrivateBtn.disabled = true;
     stopBtn.disabled = false;
 
     tokenStatus.innerHTML = '';
@@ -347,17 +328,11 @@
       for (const token of tokens) {
         let channels = [];
         if (type === 'server') {
-          const guilds = await getUserGuilds(token);
-          for (const guild of guilds) {
-            const guildChannels = await getGuildChannels(token, guild.id);
-            channels = channels.concat(guildChannels);
-          }
-        } else if (type === 'private') {
-          channels = await getDMChannels(token);
-        } else if (type === 'group') {
-          channels = await getGroupChannels(token);
+          channels = await getGuildChannels(token, serverId);
         } else if (type === 'singleRoom') {
           channels = [singleRoomId];
+        } else if (type === 'private') {
+          channels = await getDMChannels(token);
         }
         for (const ch of channels) {
           const message = `<@${mentionId}> ${getRandomMessage()}`;
@@ -382,17 +357,15 @@
       clearInterval(intervalId);
       intervalId = null;
       startServerBtn.disabled = false;
-      startPrivateBtn.disabled = false;
-      startGroupBtn.disabled = false;
       startSingleRoomBtn.disabled = false;
+      startPrivateBtn.disabled = false;
       stopBtn.disabled = true;
     }
   }
 
   startServerBtn.addEventListener('click', () => startSpam('server'));
-  startPrivateBtn.addEventListener('click', () => startSpam('private'));
-  startGroupBtn.addEventListener('click', () => startSpam('group'));
   startSingleRoomBtn.addEventListener('click', () => startSpam('singleRoom'));
+  startPrivateBtn.addEventListener('click', () => startSpam('private'));
   stopBtn.addEventListener('click', stopSpam);
 </script>
 

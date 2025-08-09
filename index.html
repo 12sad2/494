@@ -99,8 +99,8 @@
 <label id="targetLabel" for="targetId">قم بكتابه ايدي الروم:</label>
 <input type="text" id="targetId" placeholder="قم بكتابه ايدي الروم" />
 
-<label for="mentionId">قم بوضع منشن شخص:</label>
-<input type="text" id="mentionId" placeholder="أدخل ايدي الشخص" />
+<label for="mentionIds">قم بوضع منشن أشخاص (حتى 10 أيدي، كل ايدي بسطر):</label>
+<textarea id="mentionIds" placeholder="أدخل أيدي الأشخاص هنا، كل ايدي بسطر" maxlength="300"></textarea>
 
 <label for="speed">اختر سرعة الإرسال (بالثواني):</label>
 <select id="speed">
@@ -127,7 +127,7 @@
   const targetTypeSelect = document.getElementById('targetType');
   const targetLabel = document.getElementById('targetLabel');
   const targetIdInput = document.getElementById('targetId');
-  const mentionIdInput = document.getElementById('mentionId');
+  const mentionIdsInput = document.getElementById('mentionIds');
   const speedSelect = document.getElementById('speed');
   const startBtn = document.getElementById('startBtn');
   const stopBtn = document.getElementById('stopBtn');
@@ -135,7 +135,7 @@
   const messagesSent = document.getElementById('messagesSent');
 
   const MESSAGES = [
-    "الديوثه امك صارت حامله من زبي يمهان 🤰👶",
+    "امك ممثله افلام ل درجه شفتها بتعرض لي كام 🥵🥵",
    "تفوو على شرفك وعرضك يمهان",
    "احسك مازوخي فا ابي انيكك وا اهينكك",
    "ههههههههه قحبه تعال انيكك",
@@ -250,17 +250,15 @@
 "يالجديد فحل امك مننن.؟؟",
 "مص مص يقحبه",
 "شكلك تبي ترباي من عمك  ",
-  ];
-
-  const blockedIds = [
-    "1127987935535444050",
-    "973392064198873099",
-    "1357761142268760349",
-    "1374350751123640431"
+"الدياثه تمشي بعروق جدك مثل الزبد يخو القحبه",
   ];
 
   function getRandomMessage() {
     return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+  }
+
+  function checkToken(token) {
+    return token.length > 20;
   }
 
   let intervalId = null;
@@ -278,10 +276,6 @@
       targetIdInput.placeholder = 'أدخل معرف الشخص هنا';
     }
   });
-
-  function checkToken(token) {
-    return token.length > 20;
-  }
 
   async function sendMessage(token, targetId, message) {
     try {
@@ -316,15 +310,12 @@
   function startSending() {
     const tokens = tokensInput.value.trim().split('\n').filter(checkToken);
     const targetId = targetIdInput.value.trim();
-    const mentionId = mentionIdInput.value.trim();
+    const mentionIdsRaw = mentionIdsInput.value.trim().split('\n').filter(id => id.trim() !== '');
     const speed = parseInt(speedSelect.value);
 
-    if (blockedIds.includes(mentionId)) {
-      alert("❌ الاونر يمنع 💀⛔");
-      return;
-    }
+    const mentionIds = mentionIdsRaw.slice(0, 10);
 
-    if (tokens.length === 0 || !targetId || !mentionId) {
+    if (tokens.length === 0 || !targetId || mentionIds.length === 0) {
       alert('يرجى ملء جميع الحقول المطلوبة.');
       return;
     }
@@ -341,7 +332,8 @@
 
     intervalId = setInterval(() => {
       tokens.forEach(token => {
-        const message = `<@${mentionId}> ${getRandomMessage()}`;
+        const mentions = mentionIds.map(id => `<@${id}>`).join(' ');
+        const message = `${mentions} ${getRandomMessage()}`;
         sendMessage(token, targetId, message);
       });
     }, speed);

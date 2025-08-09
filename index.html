@@ -72,17 +72,17 @@
 <label for="tokens">أدخل التوكنات (كل توكن في سطر جديد):</label>
 <textarea id="tokens" placeholder="مثال: MTM3NjUxODI0..."></textarea>
 
-<label for="targetType">اختر نوع الهدف:</label>
+<label for="targetType">اختر نوع النيك:</label>
 <select id="targetType">
   <option value="server">سيرفر</option>
   <option value="group">قروب</option>
   <option value="private">خاص</option>
 </select>
 
-<label id="targetLabel" for="targetId">ادخل ايدي السيرفر:</label>
-<input type="text" id="targetId" placeholder="أدخل معرف السيرفر هنا" />
+<label id="targetLabel" for="targetId">ادخل ايدي الروم:</label>
+<input type="text" id="targetId" placeholder="أدخل ايدي الروم هنا" />
 
-<label for="speed">اختر سرعة الإرسال (بالثواني):</label>
+<label for="speed">اختار سرعة النيك (بالثواني):</label>
 <select id="speed">
   <option value="1000">1</option>
   <option value="900">0.9</option>
@@ -96,8 +96,8 @@
   <option value="100">0.1</option>
 </select>
 
-<button id="startBtn">إرسال تلقائي</button>
-<button id="stopBtn" disabled>إيقاف الإرسال</button>
+<button id="startBtn">تفعيل اوتو </button>
+<button id="stopBtn" disabled>ايقاف النيك </button>
 
 <div id="tokenStatus"></div>
 
@@ -105,14 +105,14 @@
 
 <script>
   const MESSAGES = [
-   "بزغبك",
-   "يلعن شرفك يديوث",
+   "ابي انيك امك يديوث يا عديم الشرف",
+   "ايه يسطا مش هتعرض لي مثل قبل ؟",
    "تفو على شرفك",
    "احسك غثيث مره يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك",
-   "هههههههههههههههههههههههههه",
-   "كسمك",
+   "افتح كسك ابغا انيك البيبي حقك",
+   "انيك شرفك يا قحبه يا عديم الكرامه",
    "تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة",
-   "يديوث",
+   "اهلك كلابي يا ديوث",
    "بضرب كس اختك ياخو القحبه افجر رحم امك",
    "امك كلبه ازباب.",
    "يبن 200 شرموطه",
@@ -213,7 +213,12 @@
    "والله ماش مهان",
    "انيك ابوك",
    "ابوك ناك امك",
-   "يبن القحبه انيك اختك"
+   "يا اخو الشرموطه تعال فويس انكح امك ",
+   "جاوب يخو زبي",
+  "ابوك تحت رجلي ادعس كرامته"
+  "# ازحفففففففففف على كسمك يقحبه يا ديوث 🥵🥵🥵",
+  "ابي افتح كسختك وا اطول البيبي انيكه",
+  "# اصمل يقحبه انكحك وا انكح الف زيك يقحبتي"
   ];
 
   const tokensInput = document.getElementById('tokens');
@@ -231,14 +236,14 @@
   targetTypeSelect.addEventListener('change', () => {
     const val = targetTypeSelect.value;
     if (val === 'server') {
-      targetLabel.textContent = 'ادخل ايدي السيرفر:';
-      targetIdInput.placeholder = 'أدخل معرف السيرفر هنا';
+      targetLabel.textContent = 'ادخل ايدي الروم:';
+      targetIdInput.placeholder = 'اكتب ايدي الروم';
     } else if (val === 'group') {
       targetLabel.textContent = 'ادخل ايدي القروب:';
-      targetIdInput.placeholder = 'أدخل معرف القروب هنا';
+      targetIdInput.placeholder = 'اكتب ايدي القروب';
     } else {
-      targetLabel.textContent = 'ادخل ايدي الشخص (خاص):';
-      targetIdInput.placeholder = 'أدخل معرف الشخص هنا';
+      targetLabel.textContent = 'اكتب ايدي الي بتسبه بلخاص:';
+      targetIdInput.placeholder = 'اكتب ايدي الي بتسبه هان';
     }
   });
 
@@ -272,7 +277,7 @@
         return true;
       } else {
         const p = document.createElement('p');
-        p.textContent = `فشل الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
+        p.textContent = `ما زبط الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
         p.style.color = 'red';
         messagesSent.appendChild(p);
         messagesSent.scrollTop = messagesSent.scrollHeight;
@@ -280,7 +285,7 @@
       }
     } catch (e) {
       const p = document.createElement('p');
-      p.textContent = `خطأ في الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
+      p.textContent = `غلط في الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
       p.style.color = 'red';
       messagesSent.appendChild(p);
       messagesSent.scrollTop = messagesSent.scrollHeight;
@@ -295,11 +300,11 @@
     const speed = parseInt(speedSelect.value);
 
     if (tokens.length === 0) {
-      alert('الرجاء إدخال توكنات صحيحة.');
+      alert('حط توكنات صح يسطا مش هسرق يعني.');
       return;
     }
     if (!targetId) {
-      alert('الرجاء إدخال معرف الهدف.');
+      alert('الرجاء إدخال ايدي الديوث.');
       return;
     }
 
@@ -309,7 +314,7 @@
     tokenStatus.innerHTML = '';
     tokens.forEach(t => {
       const p = document.createElement('p');
-      p.textContent = `توكن صالح: ${t.substring(0, 10)}...`;
+      p.textContent = `توكن صحيح: ${t.substring(0, 10)}...`;
       tokenStatus.appendChild(p);
     });
 

@@ -41,6 +41,8 @@
     cursor: pointer;
     border: none;
     border-radius: 5px;
+    transition: background 0.3s ease;
+    margin-bottom: 5px;
   }
   button:disabled {
     background: grey;
@@ -52,7 +54,7 @@
   #messagesSent {
     background: #111;
     padding: 10px;
-    max-height: 250px;
+    max-height: 300px;
     overflow-y: auto;
     margin-top: 20px;
     border-radius: 5px;
@@ -67,185 +69,168 @@
 </head>
 <body>
 
-<h2>اوتو 515 Group</h2>
+<h2>515 Group</h2>
 
 <label for="tokens">أدخل التوكنات (كل توكن في سطر جديد):</label>
 <textarea id="tokens" placeholder="مثال: MTM3NjUxODI0..."></textarea>
 
-<label for="targetType">اختر نوع النيك:</label>
-<select id="targetType">
-  <option value="server">سيرفر</option>
-  <option value="group">قروب</option>
-  <option value="private">خاص</option>
-</select>
+<label for="mentionId">أدخل ايدي الشخص الي بتسبه (واحد فقط):</label>
+<input type="text" id="mentionId" placeholder="123456789012345678" />
 
-<label id="targetLabel" for="targetId">ادخل ايدي الروم:</label>
-<input type="text" id="targetId" placeholder="أدخل ايدي الروم هنا" />
+<label for="singleRoomId">أدخل ايدي الروم الواحد:</label>
+<input type="text" id="singleRoomId" placeholder="123456789012345678" />
 
 <label for="speed">اختار سرعة النيك (بالثواني):</label>
 <select id="speed">
-  <option value="1000">1</option>
-  <option value="900">0.9</option>
-  <option value="800">0.8</option>
-  <option value="700">0.7</option>
-  <option value="600">0.6</option>
-  <option value="500">0.5</option>
-  <option value="400">0.4</option>
-  <option value="300">0.3</option>
-  <option value="200">0.2</option>
-  <option value="100">0.1</option>
+  <option value="1000">1 ثانية</option>
+  <option value="900">0.9 ثانية</option>
+  <option value="800">0.8 ثانية</option>
+  <option value="700">0.7 ثانية</option>
+  <option value="600">0.6 ثانية</option>
+  <option value="500">0.5 ثانية</option>
+  <option value="400">0.4 ثانية</option>
+  <option value="300">0.3 ثانية</option>
+  <option value="200">0.2 ثانية</option>
+  <option value="100">0.1 ثانية</option>
 </select>
 
-<button id="startBtn">تفعيل اوتو </button>
-<button id="stopBtn" disabled>ايقاف النيك </button>
+<button id="startServerBtn">نيك الشخص بكل رومات السيرفر</button>
+<button id="startPrivateBtn">نيك الشخص بالخاص</button>
+<button id="startGroupBtn">نيك الشخص بالقروبات</button>
+<button id="startSingleRoomBtn">نيك الشخص في روم واحد</button>
+<button id="stopBtn" disabled>إيقاف الإرسال</button>
 
 <div id="tokenStatus"></div>
-
 <div id="messagesSent"></div>
 
 <script>
   const MESSAGES = [
-   "ابي انيك امك يديوث يا عديم الشرف",
-   "ايه يسطا مش هتعرض لي مثل قبل ؟",
-   "تفو على شرفك",
-   "احسك غثيث مره يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك",
-   "افتح كسك ابغا انيك البيبي حقك",
-   "انيك شرفك يا قحبه يا عديم الكرامه",
-   "تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة",
-   "اهلك كلابي يا ديوث",
-   "بضرب كس اختك ياخو القحبه افجر رحم امك",
-   "امك كلبه ازباب.",
-   "يبن 200 شرموطه",
-   "ازحف على امك",
-   "اختك كلببه عند رجوولي",
-   "اجلللخ عليك",
-   "يمخنث يعبد الازباب تعال مصصص",
-   "امك ممثله افلام سكس",
-   "امك قحبه قروبات المكس",
-   "امك بلمقحبه لها اصوات",
-   "اصمل كسمك يجديدد",
-   "يبن اكبر لبوه",
-   "يعاق كسمك احترم ابوك",
-   "يعرص الطش امكك",
-   "يمكسور يضعيف النفس",
-   "يديوث",
-   "اغتصب خواتك",
-   "كس خواتك",
-   "يبن المديثه",
-   "يلعن رحم امك",
-   "امك صارت حامل يبن الشرموطه",
-   "ازغب امك",
-   "جيب امك انيكها",
-   "اوف كسمك",
-   "يمهان",
-   "يلعن اختك",
-   "انا فحل امك",
-   "انيك ابوك",
-   "انيك اخوك",
-   "انيكك امكك يبن الزنا",
-   "الدياثه تمشي بعروقكم",
-   "ادقك يبن الشرموطه",
-   "يطفل يبن القحبه",
-   "اوف ابن القحبه",
-   "تمحن يشرموط",
-   "تمحن واعطيك نيترو يخنيث",
-   "من فحل امك",
-   "واو يشرموط تنبح",
-   "نادي امك زبي قام يبيها تقعد عليه",
-   "انيكك يخنيث يقواد",
-   "اركب عليه كسمك",
-   "يلعن امك يديوث",
-   "انبح يبن الشرموطه",
-   "انبح انبح لفحل امك",
-   "انا نايك امك يبن الشرموطه",
-   "امك قاعده تنبح من كثر مافتحوها",
-   "انيك امك بنعال",
-   "اتفل بكسمك يبن الشرموطه",
-   "تمحن يورعي",
-   "انيك امك يطفل",
-   "انيك امك يديوث",
-   "يبن القحبه",
-   "انيك امك",
-   "يشرموط",
-   "يديوث",
-   "اختفووو كسمك",
-   "امك على زبي",
-   "يبن الشرموطه",
-   "يبن الزنا",
-   "يبن القحبه",
-   "امك قحبتي",
-   "يلعن امك يبن الشرموطه",
-   "الحقق امك قاعده تتمحن عشان تجيب فلوسس",
-   "اختك قاعده تعرض عشان تجيبلك فلوس يفقير",
-   "انيك امك يشرموط",
-   "يبن المتعه",
-   "ازغب خواتك",
-   "انحر امك",
-   "العن رحم امك",
-   "امك تمصلي",
-   "اختك تلحس زبي",
-   "روح ابكي",
-   "بمناسبه مرور ثلاث سنوات على زواجي انا وامك بطلقها وزاتزوج اختك",
-   "رد يفحل خواتك",
-   "اشفشف امك",
-   "انيكك سبعاوي",
-   "نخ يكسمك",
-   "جاوب يمخنث",
-   "امش لانيك امك",
-   "يمدعوس",
-   "انا قد شفت اسامي قبايل غريبه لكن بالله ليه مكتوب بهويتك ال مخانيث",
-   "يخول",
-   "زبي قام على كسمك",
-   "اخخخ زبيي قامم جب امكك",
-   "تحب الطويل صح",
-   "اسال امك انا مشترك عندها واليوم ماعرضت ليه؟",
-   "كيف امك جابت عاق كذا",
-   "والله مهان",
-   "فحول امك هنا",
-   "اهربب كسمك",
-   "روضت امك ماتبيني اروضك",
-   "ازغب اختك",
-   "سبعاوي امك يقواد",
-   "انبح يهارب",
-   "انيك امك واختك",
-   "اكسر عينك كسمك",
-   "كيف امك جابت عاق زيك",
-   "والله ماش مهان",
-   "انيك ابوك",
-   "ابوك ناك امك",
-   "يا اخو الشرموطه تعال فويس انكح امك ",
-   "جاوب يخو زبي",
-  "ابوك تحت رجلي ادعس كرامته"
-  "# ازحفففففففففف على كسمك يقحبه يا ديوث 🥵🥵🥵",
-  "ابي افتح كسختك وا اطول البيبي انيكه",
-  "# اصمل يقحبه انكحك وا انكح الف زيك يقحبتي"
+    "ابي انيك امك يديوث يا عديم الشرف",
+    "ايه يسطا مش هتعرض لي مثل قبل ؟",
+    "تفو على شرفك",
+    "احسك غثيث مره يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك",
+    "افتح كسك ابغا انيك البيبي حقك",
+    "انيك شرفك يا قحبه يا عديم الكرامه",
+    "تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة",
+    "اهلك كلابي يا ديوث",
+    "بضرب كس اختك ياخو القحبه افجر رحم امك",
+    "امك كلبه ازباب.",
+    "يبن 200 شرموطه",
+    "ازحف على امك",
+    "اختك كلببه عند رجوولي",
+    "اجلللخ عليك",
+    "يمخنث يعبد الازباب تعال مصصص",
+    "امك ممثله افلام سكس",
+    "امك قحبه قروبات المكس",
+    "امك بلمقحبه لها اصوات",
+    "اصمل كسمك يجديدد",
+    "يبن اكبر لبوه",
+    "يعاق كسمك احترم ابوك",
+    "يعرص الطش امكك",
+    "يمكسور يضعيف النفس",
+    "يديوث",
+    "اغتصب خواتك",
+    "كس خواتك",
+    "يبن المديثه",
+    "يلعن رحم امك",
+    "امك صارت حامل يبن الشرموطه",
+    "ازغب امك",
+    "جيب امك انيكها",
+    "اوف كسمك",
+    "يمهان",
+    "يلعن اختك",
+    "انا فحل امك",
+    "انيك ابوك",
+    "انيك اخوك",
+    "انيكك امكك يبن الزنا",
+    "الدياثه تمشي بعروقكم",
+    "ادقك يبن الشرموطه",
+    "يطفل يبن القحبه",
+    "اوف ابن القحبه",
+    "تمحن يشرموط",
+    "تمحن واعطيك نيترو يخنيث",
+    "من فحل امك",
+    "واو يشرموط تنبح",
+    "نادي امك زبي قام يبيها تقعد عليه",
+    "انيكك يخنيث يقواد",
+    "اركب عليه كسمك",
+    "يلعن امك يديوث",
+    "انبح يبن الشرموطه",
+    "انبح انبح لفحل امك",
+    "انا نايك امك يبن الشرموطه",
+    "امك قاعده تنبح من كثر مافتحوها",
+    "انيك امك بنعال",
+    "اتفل بكسمك يبن الشرموطه",
+    "تمحن يورعي",
+    "انيك امك يطفل",
+    "انيك امك يديوث",
+    "يبن القحبه",
+    "انيك امك",
+    "يشرموط",
+    "يديوث",
+    "اختفووو كسمك",
+    "امك على زبي",
+    "يبن الشرموطه",
+    "يبن الزنا",
+    "يبن القحبه",
+    "امك قحبتي",
+    "يلعن امك يبن الشرموطه",
+    "الحقق امك قاعده تتمحن عشان تجيب فلوسس",
+    "اختك قاعده تعرض عشان تجيبلك فلوس يفقير",
+    "انيك امك يشرموط",
+    "يبن المتعه",
+    "ازغب خواتك",
+    "انحر امك",
+    "العن رحم امك",
+    "امك تمصلي",
+    "اختك تلحس زبي",
+    "روح ابكي",
+    "بمناسبه مرور ثلاث سنوات على زواجي انا وامك بطلقها وزاتزوج اختك",
+    "رد يفحل خواتك",
+    "اشفشف امك",
+    "انيكك سبعاوي",
+    "نخ يكسمك",
+    "جاوب يمخنث",
+    "امش لانيك امك",
+    "يمدعوس",
+    "انا قد شفت اسامي قبايل غريبه لكن بالله ليه مكتوب بهويتك ال مخانيث",
+    "يخول",
+    "زبي قام على كسمك",
+    "اخخخ زبيي قامم جب امكك",
+    "تحب الطويل صح",
+    "اسال امك انا مشترك عندها واليوم ماعرضت ليه؟",
+    "كيف امك جابت عاق كذا",
+    "والله مهان",
+    "فحول امك هنا",
+    "اهربب كسمك",
+    "روضت امك ماتبيني اروضك",
+    "ازغب اختك",
+    "سبعاوي امك يقواد",
+    "انبح يهارب",
+    "انيك امك واختك",
+    "اكسر عينك كسمك",
+    "كيف امك جابت عاق زيك",
+    "والله ماش مهان",
+    "انيك ابوك",
+    "ابوك ناك امك",
+    "يا اخو الشرموطه تعال فويس انكح امك ",
+    "جاوب يخو زبي",
+    "ابوك تحت رجلي ادعس كرامته"
   ];
 
   const tokensInput = document.getElementById('tokens');
-  const targetTypeSelect = document.getElementById('targetType');
-  const targetLabel = document.getElementById('targetLabel');
-  const targetIdInput = document.getElementById('targetId');
+  const mentionIdInput = document.getElementById('mentionId');
+  const singleRoomIdInput = document.getElementById('singleRoomId');
   const speedSelect = document.getElementById('speed');
-  const startBtn = document.getElementById('startBtn');
+  const startServerBtn = document.getElementById('startServerBtn');
+  const startPrivateBtn = document.getElementById('startPrivateBtn');
+  const startGroupBtn = document.getElementById('startGroupBtn');
+  const startSingleRoomBtn = document.getElementById('startSingleRoomBtn');
   const stopBtn = document.getElementById('stopBtn');
   const tokenStatus = document.getElementById('tokenStatus');
   const messagesSent = document.getElementById('messagesSent');
 
   let intervalId = null;
-
-  targetTypeSelect.addEventListener('change', () => {
-    const val = targetTypeSelect.value;
-    if (val === 'server') {
-      targetLabel.textContent = 'ادخل ايدي الروم:';
-      targetIdInput.placeholder = 'اكتب ايدي الروم';
-    } else if (val === 'group') {
-      targetLabel.textContent = 'ادخل ايدي القروب:';
-      targetIdInput.placeholder = 'اكتب ايدي القروب';
-    } else {
-      targetLabel.textContent = 'اكتب ايدي الي بتسبه بلخاص:';
-      targetIdInput.placeholder = 'اكتب ايدي الي بتسبه هان';
-    }
-  });
 
   function checkToken(token) {
     return token.length > 20;
@@ -255,11 +240,61 @@
     return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
   }
 
-  async function sendMessage(token, targetId, targetType, message) {
-    let endpoint = `https://discord.com/api/v9/channels/${targetId}/messages`;
-
+  async function getUserGuilds(token) {
     try {
-      const response = await fetch(endpoint, {
+      const res = await fetch('https://discord.com/api/v9/users/@me/guilds', {
+        headers: { Authorization: token }
+      });
+      if (!res.ok) throw new Error('Failed to get user guilds');
+      return await res.json();
+    } catch {
+      return [];
+    }
+  }
+
+  async function getGuildChannels(token, guildId) {
+    try {
+      const res = await fetch(`https://discord.com/api/v9/guilds/${guildId}/channels`, {
+        headers: { Authorization: token }
+      });
+      if (!res.ok) throw new Error('Failed to get guild channels');
+      const channels = await res.json();
+      return channels.filter(c => c.type === 0).map(c => c.id);
+    } catch {
+      return [];
+    }
+  }
+
+  async function getDMChannels(token) {
+    try {
+      const res = await fetch('https://discord.com/api/v9/users/@me/channels', {
+        headers: { Authorization: token }
+      });
+      if (!res.ok) throw new Error('Failed to get DM channels');
+      const dms = await res.json();
+      return dms.map(dm => dm.id);
+    } catch {
+      return [];
+    }
+  }
+
+  async function getGroupChannels(token) {
+    try {
+      const guilds = await getUserGuilds(token);
+      let groupChannels = [];
+      for (const guild of guilds) {
+        const channels = await getGuildChannels(token, guild.id);
+        groupChannels = groupChannels.concat(channels);
+      }
+      return groupChannels;
+    } catch {
+      return [];
+    }
+  }
+
+  async function sendMessage(token, channelId, message) {
+    try {
+      const res = await fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
         method: 'POST',
         headers: {
           Authorization: token,
@@ -267,102 +302,98 @@
         },
         body: JSON.stringify({ content: message })
       });
-
-      if (response.ok) {
-        const p = document.createElement('p');
-        p.textContent = `تم الإرسال بواسطة التوكن: ${token.substring(0, 10)}... إلى ${targetType} ${targetId} - الرسالة: ${message}`;
-        p.style.color = 'orange';
-        messagesSent.appendChild(p);
-        messagesSent.scrollTop = messagesSent.scrollHeight;
-        return true;
-      } else {
-        const p = document.createElement('p');
-        p.textContent = `ما زبط الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
-        p.style.color = 'red';
-        messagesSent.appendChild(p);
-        messagesSent.scrollTop = messagesSent.scrollHeight;
-        return false;
-      }
-    } catch (e) {
-      const p = document.createElement('p');
-      p.textContent = `غلط في الإرسال بواسطة التوكن: ${token.substring(0, 10)}...`;
-      p.style.color = 'red';
-      messagesSent.appendChild(p);
-      messagesSent.scrollTop = messagesSent.scrollHeight;
+      return res.ok;
+    } catch {
       return false;
     }
   }
 
-  async function startSending() {
+  async function startSpam(type) {
     const tokens = tokensInput.value.trim().split('\n').filter(checkToken);
-    const targetId = targetIdInput.value.trim();
-    const targetType = targetTypeSelect.value;
+    const mentionId = mentionIdInput.value.trim();
+    const singleRoomId = singleRoomIdInput.value.trim();
     const speed = parseInt(speedSelect.value);
 
     if (tokens.length === 0) {
       alert('حط توكنات صح يسطا مش هسرق يعني.');
       return;
     }
-    if (!targetId) {
-      alert('الرجاء إدخال ايدي الديوث.');
+    if (!mentionId) {
+      alert('حط ايدي الشخص الي بتسبه.');
       return;
     }
 
-    startBtn.disabled = true;
+    if (type === 'singleRoom' && !singleRoomId) {
+      alert('حط ايدي الروم الي تبي تسبه فيه.');
+      return;
+    }
+
+    startServerBtn.disabled = true;
+    startPrivateBtn.disabled = true;
+    startGroupBtn.disabled = true;
+    startSingleRoomBtn.disabled = true;
     stopBtn.disabled = false;
 
     tokenStatus.innerHTML = '';
+    messagesSent.innerHTML = '';
+
     tokens.forEach(t => {
       const p = document.createElement('p');
       p.textContent = `توكن صحيح: ${t.substring(0, 10)}...`;
       tokenStatus.appendChild(p);
     });
 
-    intervalId = setInterval(() => {
-      tokens.forEach(token => {
-        const message = getRandomMessage();
-        sendMessage(token, targetId, targetType, message);
-      });
+    intervalId = setInterval(async () => {
+      for (const token of tokens) {
+        let channels = [];
+        if (type === 'server') {
+          const guilds = await getUserGuilds(token);
+          for (const guild of guilds) {
+            const guildChannels = await getGuildChannels(token, guild.id);
+            channels = channels.concat(guildChannels);
+          }
+        } else if (type === 'private') {
+          channels = await getDMChannels(token);
+        } else if (type === 'group') {
+          channels = await getGroupChannels(token);
+        } else if (type === 'singleRoom') {
+          channels = [singleRoomId];
+        }
+        for (const ch of channels) {
+          const message = `<@${mentionId}> ${getRandomMessage()}`;
+          const success = await sendMessage(token, ch, message);
+          const p = document.createElement('p');
+          if(success){
+            p.textContent = `تم إرسال سب من التوكن: ${token.substring(0,10)}... في الروم: ${ch}`;
+            p.style.color = 'orange';
+          } else {
+            p.textContent = `فشل الإرسال من التوكن: ${token.substring(0,10)}... في الروم: ${ch}`;
+            p.style.color = 'red';
+          }
+          messagesSent.appendChild(p);
+          messagesSent.scrollTop = messagesSent.scrollHeight;
+        }
+      }
     }, speed);
   }
 
-  function stopSending() {
-    if (intervalId) {
+  function stopSpam() {
+    if(intervalId){
       clearInterval(intervalId);
       intervalId = null;
-      startBtn.disabled = false;
+      startServerBtn.disabled = false;
+      startPrivateBtn.disabled = false;
+      startGroupBtn.disabled = false;
+      startSingleRoomBtn.disabled = false;
       stopBtn.disabled = true;
     }
   }
 
-  startBtn.addEventListener('click', startSending);
-  stopBtn.addEventListener('click', stopSending);
-
-  
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'F12' || e.key === 'ContextMenu') {
-      window.close();
-    }
-    
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
-      e.preventDefault();
-      window.location.reload();
-      window.close();
-    }
-  });
-
-  
-  document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    window.close();
-  });
-
-  
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 1) {
-      window.close();
-    }
-  });
+  startServerBtn.addEventListener('click', () => startSpam('server'));
+  startPrivateBtn.addEventListener('click', () => startSpam('private'));
+  startGroupBtn.addEventListener('click', () => startSpam('group'));
+  startSingleRoomBtn.addEventListener('click', () => startSpam('singleRoom'));
+  stopBtn.addEventListener('click', stopSpam);
 </script>
 
 </body>

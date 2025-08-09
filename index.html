@@ -1,1 +1,154 @@
 
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>لوحة تحكم - نموذج</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#2b0f0f;
+      --bg2:#6b2b2b;
+      --glass: rgba(255,255,255,0.05);
+      --accent1: #ff6a00;
+      --accent2: #ff3b00;
+      --pink1: #ff3b8a;
+      --pink2: #ff0066;
+      --card-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; 
+      font-family: 'Cairo', sans-serif;
+      background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02), transparent 10%), linear-gradient(180deg,#3b1a1a 0%, #1f1313 60%);
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      padding:30px;
+    }
+    .container{
+      max-width:760px;
+      margin:0 auto;
+      display:grid;
+      gap:28px;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.35));
+      border-radius:18px;
+      padding:22px;
+      box-shadow: var(--card-shadow);
+      border:2px solid rgba(255,0,0,0.06);
+      backdrop-filter: blur(6px) saturate(120%);
+    }
+    .input{
+      display:block;
+      width:100%;
+      padding:18px 20px;
+      margin:12px 0;
+      border-radius:12px;
+      border:2px solid rgba(255,0,0,0.08);
+      background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.4));
+      color:#ddd;
+      font-size:16px;
+      outline:none;
+    }
+    .input::placeholder{color:#9a7b7b}
+    .big-btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:18px;
+      border-radius:12px;
+      font-size:18px;
+      font-weight:600;
+      cursor:pointer;
+      border:none;
+      width:100%;
+      margin-top:12px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.4);
+      transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .big-btn:active{transform:translateY(2px)}
+    .btn-voice{background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:#fff}
+    .btn-stop{background: linear-gradient(90deg,#8f0000,#420000); color:#fff}
+    .btn-muted{background: linear-gradient(90deg,#ff7b00,#ff4500); color:#fff}
+    .btn-pink{background: linear-gradient(90deg,var(--pink1),var(--pink2)); color:#fff}
+    .small-muted{font-size:14px;color:#f4a19a;margin-top:8px}
+
+    /* second card (sending panel) */
+    .label{color:#ffb2b2;margin-top:10px;font-weight:600}
+    select.input{appearance:none;background-image:linear-gradient(45deg,transparent 50%, rgba(255,255,255,0.06) 50%), linear-gradient(135deg, rgba(255,255,255,0.03) 50%, transparent 50%); background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px); background-size:12px 12px, 12px 12px; background-repeat:no-repeat}
+
+    .row{display:grid;grid-template-columns:1fr;gap:12px}
+
+    @media(min-width:900px){
+      .row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    }
+
+    .section-title{ text-align:center; font-weight:700; margin-bottom:10px; color:#ffe7e7}
+    .muted-note{color:#e9b0b0; font-size:14px; text-align:center}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Card 1: Voice controls -->
+    <div class="card">
+      <div class="section-title">قناة الفويس ID</div>
+      <input class="input" placeholder="ID قناة الفويس">
+
+      <button class="big-btn btn-voice">🎙️ دخول الفويس</button>
+      <button class="big-btn btn-stop">🔕 خروج من الفويس</button>
+      <button class="big-btn btn-muted">🔇 كتم الجميع</button>
+      <button class="big-btn btn-muted">🔈 صم الجميع</button>
+      <button class="big-btn btn-muted">🔊 إلغاء كتم الجميع</button>
+      <button class="big-btn btn-muted">🔊 إلغاء صم الجميع</button>
+    </div>
+
+    <!-- Card 2: Sending messages -->
+    <div class="card">
+      <div class="section-title">ارسال رسائل / ريموت</div>
+      <input class="input" placeholder="ID الروم / الخاص / القروب">
+      <input class="input" placeholder="اكتب الاتيديات (مفصولة بفاصلة)">
+      <input class="input" placeholder="الرسالة">
+
+      <div class="label">نوع الإرسال:</div>
+      <select class="input">
+        <option>عشوائي</option>
+        <option>ترتيبي</option>
+        <option>مخصص</option>
+      </select>
+
+      <button class="big-btn" style="background:linear-gradient(90deg,#ff3b3b,#ff0000);">🚀 ابدأ الإرسال</button>
+      <button class="big-btn btn-stop">⏹️ إيقاف الإرسال</button>
+    </div>
+
+    <!-- Card 3: Rename tokens and nickname -->
+    <div class="card">
+      <div class="section-title">🔄 تغيير أسماء التوكنات</div>
+      <input class="input" placeholder="الاسم الجديد للتوكنات">
+      <button class="big-btn btn-pink">✍️ تغيير أسماء التوكنات</button>
+
+      <hr style="border:none;height:1px;background:rgba(255,255,255,0.04);margin:18px 0">
+
+      <div class="section-title">👤 تغيير Nickname في السيرفر</div>
+      <input class="input" placeholder="ID السيرفر">
+      <input class="input" placeholder="Nickname الجديد">
+      <button class="big-btn btn-pink">🔖 تغيير NICKNAME</button>
+    </div>
+
+  </div>
+
+  <script>
+    // small interactive demo logic
+    document.querySelectorAll('.big-btn').forEach(b=>{
+      b.addEventListener('click',()=>{
+        b.style.transform='scale(0.995)';
+        setTimeout(()=>b.style.transform='',120);
+      });
+    });
+  </script>
+</body>
+</html>

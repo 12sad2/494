@@ -3,83 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>515 Group - اوتو</title>
+<title>515 Group</title>
 <style>
-body { font-family: Arial, sans-serif; background: linear-gradient(135deg,#1a0033,#004d26); color: white; margin:0; padding:20px; direction: rtl; }
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#1a0033,#004d26);
+  color: white;
+  margin:0;
+  padding:20px;
+  direction: rtl;
+}
 .container { max-width: 900px; margin:auto; }
 h2 { text-align:center; margin-bottom:20px; }
-label, input, textarea, select, button { display:block; margin:10px 0; width:100%; }
-textarea,input,select { padding:10px; border-radius:8px; border:none; background: rgba(0,0,0,0.5); color:white; }
-button { background: linear-gradient(145deg,#7b00ff,#00ff7b); color: white; padding: 12px; font-weight: bold; cursor: pointer; border: 2px solid #000; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.4); transition: all 0.2s ease; }
+label, input, textarea, select, button {
+  display:block; margin:10px 0; width:100%;
+}
+textarea,input,select {
+  padding:10px; border-radius:8px; border:none; background: rgba(0,0,0,0.5); color:white;
+}
+button {
+  background: linear-gradient(145deg,#7b00ff,#00ff7b);
+  color: white;
+  padding: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 2px solid #000;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+  transition: all 0.2s ease;
+}
 button:hover { transform: translateY(-2px); box-shadow: 0 6px 10px rgba(0,0,0,0.5); }
 button:active { transform: translateY(1px); box-shadow: 0 3px 5px rgba(0,0,0,0.4); }
 button:disabled { background: grey; cursor: not-allowed; box-shadow: none; }
-#messagesSent, #status { background: rgba(0,0,0,0.4); padding:10px; max-height:200px; overflow-y:auto; border-radius:8px; margin-bottom:20px; }
+#stopBtn { background: linear-gradient(145deg,#ff0044,#990022); }
+.green-btn { background: linear-gradient(145deg,#00ff4d,#009900); color: black; }
+.red-btn { background: linear-gradient(145deg,#ff1a1a,#990000); color: white; }
+#messagesSent, #tokenStatus { background: rgba(0,0,0,0.4); padding:10px; max-height:200px; overflow-y:auto; border-radius:8px; margin-bottom:20px; }
+#controlPanel { display:none; padding:10px; border-radius:8px; background: rgba(50,0,50,0.8); }
+.control-title { font-size:20px; text-align:center; margin-bottom:10px; color:#ffccff; }
+.control-section { margin-bottom:15px; }
+.control-section input, .control-section textarea { margin-bottom:5px; }
+.control-section button { margin-top:5px; }
+.left-btn { position: absolute; left: 20px; top: 20px; padding:10px 15px; background:#7b00ff; color:white; border-radius:8px; cursor:pointer; font-weight:bold; }
+.left-btn:hover { transform:scale(1.05); box-shadow:0 0 10px #00ff7b,0 0 15px #7b00ff; }
 </style>
 </head>
 <body>
 <div class="container">
 <h2>اوتو 515 Group</h2>
-<label>توكنات الحساب</label>
-<textarea id="tokens" placeholder="ضع التوكنات هنا، كل توكن بسطر"></textarea>
-<label>الاسم الجديد (لتغيير اسم الحساب)</label>
-<input type="text" id="newName" placeholder="الاسم الجديد هنا">
-<button id="changeNameBtn">تغير الاسم</button>
-<hr>
-<label>ايدي الديوثين (كل ايدي بسطر)</label>
+<button class="left-btn" id="goControl">التحكم بالحساب</button>
+
+<div id="autoPanel">
+<label for="tokens">اكتب التوكنات (كل توكن بسطر)</label>
+<textarea id="tokens" placeholder="MTM3NjUxODI0..."></textarea>
+
+<label for="ids">اكتب ايدي الديوثين (كل ايدي بسطر)</label>
 <textarea id="ids" placeholder="123456789012345678"></textarea>
-<label>ايدي روم الهدف</label>
-<input type="text" id="targetId" placeholder="اكتب ايدي الروم هنا">
-<label>اختر سرعة الإرسال (بالثواني)</label>
+
+<label for="targetId">اكتب ايدي روم الي تبي تسب فيه هان</label>
+<input type="text" id="targetId" placeholder="اكتب ايدي الروم هان">
+
+<label for="speed">اختر سرعة الإرسال (بالثواني)</label>
 <select id="speed">
-  <option value="1000">1</option>
-  <option value="900">0.9</option>
-  <option value="800">0.8</option>
-  <option value="700">0.7</option>
-  <option value="600">0.6</option>
-  <option value="500">0.5</option>
-  <option value="400">0.4</option>
-  <option value="300">0.3</option>
-  <option value="200">0.2</option>
-  <option value="100">0.1</option>
-  <option value="1">0.001</option>
   <option value="0.1">0.0001</option>
 </select>
+
 <button id="startBtn">نيك الديوث</button>
 <button id="stopBtn" disabled>ايقاف النيك</button>
-<div id="status"></div>
+
+<div id="tokenStatus"></div>
 <div id="messagesSent"></div>
 </div>
+
+<div id="controlPanel">
+<div class="control-title">التحكم بالحساب - حقوق 515</div>
+<div class="control-section">
+<label>قم بوضع توكن الحساب</label>
+<textarea id="accToken" placeholder="توكن الحساب هنا"></textarea>
+</div>
+
+<div class="control-section">
+<label>ايدي السيرفر لتغيير Display Name</label>
+<input type="text" id="serverId" placeholder="اكتب ايدي السيرفر">
+<label>الاسم الجديد (Display Name)</label>
+<input type="text" id="newName" placeholder="اكتب الاسم الجديد">
+<button id="changeNameBtn">تغير Display Name</button>
+</div>
+
+<button class="left-btn" id="backAuto">رجوع الى الاوتو</button>
+</div>
+
+<audio id="clickSound" src="https://www.soundjay.com/buttons/button-09.mp3"></audio>
+
 <script>
 const MESSAGES = [
-"بزغبك","يلعن شرفك يديوث","تفو على شرفك","احسك غثيث مره يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك",
-"هههههههههههههههههههههههههه","كسمك","تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة",
-"يديوث","بضرب كس اختك ياخو القحبه افجر رحم امك","امك كلبه ازباب.","يبن 200 شرموطه","ازحف على امك","اختك كلببه عند رجوولي",
-"اجلللخ عليك","يمخنث يعبد الازباب تعال مصصص","امك ممثله افلام سكس","امك قحبه قروبات المكس","امك بلمقحبه لها اصوات","اصمل كسمك يجديدد",
-"يبن اكبر لبوه","يعاق كسمك احترم ابوك","يعرص الطش امكك","يمكسور يضعيف النفس","يديوث","اغتصب خواتك","كس خواتك","يبن المديثه",
-"يلعن رحم امك","امك صارت حامل يبن الشرموطه","ازغب امك","جيب امك انيكها","اوف كسمك","يمهان","يلعن اختك","انا فحل امك",
-"انيك ابوك","انيك اخوك","انيكك امكك يبن الزنا","الدياثه تمشي بعروقكم","ادقك يبن الشرموطه","يطفل يبن القحبه","اوف ابن القحبه",
-"تمحن يشرموط","تمحن واعطيك نيترو يخنيث","من فحل امك","واو يشرموط تنبح","نادي امك زبي قام يبيها تقعد عليه","انيكك يخنيث يقواد",
-"اركب عليه كسمك","يلعن امك يديوث","انبح يبن الشرموطه","انبح انبح لفحل امك","انا نايك امك يبن الشرموطه","امك قاعده تنبح من كثر مافتحوها",
-"انيك امك بنعال","اتفل بكسمك يبن الشرموطه","تمحن يورعي","انيك امك يطفل","انيك امك يديوث","يبن القحبه","انيك امك","يشرموط",
-"يديوث","اختفووو كسمك","امك على زبي","يبن الشرموطه","يبن الزنا","يبن القحبه","امك قحبتي","يلعن امك يبن الشرموطه","الحقق امك قاعده تتمحن عشان تجيب فلوسس",
-"اختك قاعده تعرض عشان تجيبلك فلوس يفقير","انيك امك يشرموط","يبن المتعه","ازغب خواتك","انحر امك","العن رحم امك","امك تمصلي","اختك تلحس زبي",
-"روح ابكي","# قم جب لي اختك مش شعرها"
+   "بزغبك","يلعن شرفك يديوث","تفو على شرفك","احسك غثيث مره يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك",
+   "هههههههههههههههههههههههههه","كسمك","تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة",
+   "يديوث","بضرب كس اختك ياخو القحبه افجر رحم امك","امك كلبه ازباب.","يبن 200 شرموطه","ازحف على امك","اختك كلببه عند رجوولي","اجلللخ عليك","يمخنث يعبد الازباب تعال مصصص","امك ممثله افلام سكس",
+   "# قم جب لي اختك مش شعرها"
 ];
+
 const tokensInput = document.getElementById('tokens');
-const newNameInput = document.getElementById('newName');
-const changeNameBtn = document.getElementById('changeNameBtn');
 const idsInput = document.getElementById('ids');
 const targetIdInput = document.getElementById('targetId');
 const speedSelect = document.getElementById('speed');
 const startBtn = document.getElementById('startBtn');
 const stopBtn = document.getElementById('stopBtn');
-const statusDiv = document.getElementById('status');
+const tokenStatus = document.getElementById('tokenStatus');
 const messagesSent = document.getElementById('messagesSent');
+const clickSound = document.getElementById('clickSound');
+
 let intervalId = null;
+
 function checkToken(token){return token.length>20;}
 function getRandomMessage(){return MESSAGES[Math.floor(Math.random()*MESSAGES.length)];}
-function getRandomId(){ const ids=idsInput.value.trim().split('\n').filter(id=>id.length>0); return ids[Math.floor(Math.random()*ids.length)]; }
+
 async function sendMessage(token,targetId,message){
 try{
 const response=await fetch(`https://discord.com/api/v9/channels/${targetId}/messages`,{
@@ -87,12 +125,21 @@ method:'POST',
 headers:{Authorization:token,'Content-Type':'application/json'},
 body:JSON.stringify({content:`<@${getRandomId()}> ${message}`})
 });
+if(response.ok){
 const p=document.createElement('p');
-if(response.ok){ p.textContent=`تم الإرسال بواسطة ${token.substring(0,10)}... إلى الروم ${targetId} - الرسالة: ${message}`; p.style.color='orange'; }
-else{ p.textContent=`فشل الإرسال بواسطة ${token.substring(0,10)}...`; p.style.color='red'; }
-messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight;
-}catch(e){ const p=document.createElement('p'); p.textContent=`خطأ في الإرسال بواسطة ${token.substring(0,10)}...`; p.style.color='red'; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; }
+p.textContent=`تم الإرسال بواسطة ${token.substring(0,10)}... إلى الروم ${targetId} - الرسالة: ${message}`;
+p.style.color='orange'; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return true;
+}else{
+const p=document.createElement('p'); p.textContent=`فشل الإرسال بواسطة ${token.substring(0,10)}...`; p.style.color='red'; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return false;
 }
+}catch(e){const p=document.createElement('p'); p.textContent=`خطأ في الإرسال بواسطة ${token.substring(0,10)}...`; p.style.color='red'; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return false;}
+}
+
+function getRandomId(){
+const ids=idsInput.value.trim().split('\n').filter(id=>id.length>0);
+return ids[Math.floor(Math.random()*ids.length)];
+}
+
 function startSending(){
 const tokens=tokensInput.value.trim().split('\n').filter(checkToken);
 const targetId=targetIdInput.value.trim();
@@ -100,31 +147,29 @@ const speed=parseFloat(speedSelect.value);
 if(tokens.length===0){alert('الرجاء إدخال توكنات صحيحة.');return;}
 if(!targetId){alert('الرجاء إدخال ايدي الروم.');return;}
 startBtn.disabled=true; stopBtn.disabled=false;
+tokenStatus.innerHTML=''; tokens.forEach(t=>{const p=document.createElement('p'); p.textContent=`توكن صالح: ${t.substring(0,10)}...`; tokenStatus.appendChild(p);});
 intervalId=setInterval(()=>{tokens.forEach(token=>{sendMessage(token,targetId,getRandomMessage());});},speed);
 }
+
 function stopSending(){if(intervalId){clearInterval(intervalId); intervalId=null; startBtn.disabled=false; stopBtn.disabled=true;}}
-startBtn.addEventListener('click',startSending);
-stopBtn.addEventListener('click',stopSending);
-changeNameBtn.addEventListener('click', async () => {
-const tokens = tokensInput.value.trim().split('\n').filter(checkToken);
-const newName = newNameInput.value.trim();
-statusDiv.innerHTML = '';
-if (!newName) { alert('ادخل الاسم الجديد'); return; }
-if (tokens.length === 0) { alert('ادخل توكنات صحيحة'); return; }
-for (let token of tokens) {
-try {
-const res = await fetch('https://discord.com/api/v9/users/@me', {
-method: 'PATCH',
-headers: { 'Authorization': token, 'Content-Type': 'application/json' },
-body: JSON.stringify({ username: newName })
+
+startBtn.addEventListener('click',()=>{clickSound.play(); startSending();});
+stopBtn.addEventListener('click',()=>{clickSound.play(); stopSending();});
+
+document.getElementById('goControl').addEventListener('click',()=>{clickSound.play(); document.getElementById('autoPanel').style.display='none'; document.getElementById('controlPanel').style.display='block';});
+document.getElementById('backAuto').addEventListener('click',()=>{clickSound.play(); document.getElementById('controlPanel').style.display='none'; document.getElementById('autoPanel').style.display='block';});
+
+document.getElementById('changeNameBtn').addEventListener('click',()=>{
+clickSound.play();
+const token=document.getElementById('accToken').value.trim();
+const serverId=document.getElementById('serverId').value.trim();
+const newName=document.getElementById('newName').value.trim();
+if(!token||!newName||!serverId){alert('ادخل التوكن والاسم الجديد وايدي السيرفر'); return;}
+fetch(`https://discord.com/api/v9/guilds/${serverId}/members/@me`,{
+method:'PATCH', headers:{Authorization:token,'Content-Type':'application/json'}, body:JSON.stringify({nick:newName})
+}).then(r=>{if(r.ok){alert('تم تغيير Display Name بنجاح');}else{alert('فشل تغيير Display Name');}});
 });
-const p = document.createElement('p');
-if (res.ok) { p.textContent = `تم تغيير الاسم للـ توكن ${token.substring(0,10)}... إلى "${newName}"`; p.style.color = 'green'; }
-else { p.textContent = `فشل تغيير الاسم للـ توكن ${token.substring(0,10)}...`; p.style.color = 'red'; }
-statusDiv.appendChild(p);
-} catch(e) { const p = document.createElement('p'); p.textContent = `خطأ للـ توكن ${token.substring(0,10)}...`; p.style.color = 'orange'; statusDiv.appendChild(p); }
-}
-});
+
 </script>
 </body>
 </html>

@@ -1,1 +1,153 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>515 Group</title>
+<style>
+body { font-family: Arial, sans-serif; background: #1e1e2f; color: white; padding: 20px; }
+h2, h3 { color: #f0f0f0; }
+label, select, input, textarea, button { display: block; margin: 10px 0; width: 100%; font-size: 14px; }
+textarea { height: 100px; background: #2b2b3d; color: white; resize: none; padding: 10px; border: 1px solid #444; border-radius: 5px; }
+input, select { padding: 8px; border-radius: 5px; border: 1px solid #444; background: #2b2b3d; color: white; }
+button { background: #6a0dad; color: white; padding: 10px; font-weight: bold; cursor: pointer; border: none; border-radius: 5px; transition: all 0.2s; }
+button:hover { background: #7e1fd1; }
+button:active { transform: scale(0.95); }
+button:disabled { background: grey; cursor: not-allowed; }
+#messagesSent { background: #111; padding: 10px; max-height: 250px; overflow-y: auto; margin-top: 20px; border-radius: 5px; }
+.container { max-width: 600px; margin: auto; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+<h2>اوتو 515 Group</h2>
+
+<label for="tokens">قم بوضع توكن الحساب (كل توكن بسطر):</label>
+<textarea id="tokens" placeholder="مثال: MTM3NjUxODI0..."></textarea>
+
+<label for="targetId">اكتب ايدي الروم:</label>
+<input type="text" id="targetId" placeholder="اكتب ايدي الروم هنا" />
+
+<label for="speed">اختر سرعة الإرسال (بالثواني):</label>
+<select id="speed">
+  <option value="1">1</option>
+  <option value="0.9">0.9</option>
+  <option value="0.8">0.8</option>
+  <option value="0.7">0.7</option>
+  <option value="0.6">0.6</option>
+  <option value="0.5">0.5</option>
+  <option value="0.4">0.4</option>
+  <option value="0.3">0.3</option>
+  <option value="0.2">0.2</option>
+  <option value="0.1">0.1</option>
+  <option value="0.001">0.001</option>
+</select>
+
+<button id="startBtn">نيك الديوث</button>
+<button id="stopBtn" disabled>ايقاف النيك</button>
+
+<div id="messagesSent"></div>
+
+<h3>تغيير الحساب</h3>
+<button id="changeAccountPageBtn">اذهب لصفحة تغير الحساب</button>
+
+<div id="changeAccountPage" class="hidden">
+<h3>صفحة تغير الحساب</h3>
+
+<label for="accountToken">قم بوضع توكن الحساب:</label>
+<input type="text" id="accountToken" placeholder="ضع التوكن هنا">
+
+<label for="newRealName">تغير الاسم الحقيقي للحساب:</label>
+<input type="text" id="newRealName" placeholder="اكتب الاسم الجديد">
+
+<button id="changeRealNameBtn">تغير الاسم الحقيقي</button>
+<button id="backBtn">رجوع الى الاوتو</button>
+
+<div id="changeStatus"></div>
+</div>
+
+<script>
+const MESSAGES = [
+"بزغبك","يلعن شرفك يديوث","تفو على شرفك","احسك غثيث مره يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك",
+"هههههههههههههههههههههههههه","كسمك","تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة",
+"يديوث","بضرب كس اختك ياخو القحبه افجر رحم امك","امك كلبه ازباب.","يبن 200 شرموطه","ازحف على امك","اختك كلببه عند رجوولي",
+"اجلللخ عليك","يمخنث يعبد الازباب تعال مصصص","امك ممثله افلام سكس","امك قحبه قروبات المكس","امك بلمقحبه لها اصوات","اصمل كسمك يجديدد",
+"يبن اكبر لبوه","يعاق كسمك احترم ابوك","يعرص الطش امكك","يمكسور يضعيف النفس","يديوث","اغتصب خواتك","كس خواتك","يبن المديثه","يلعن رحم امك",
+"امك صارت حامل يبن الشرموطه","ازغب امك","جيب امك انيكها","اوف كسمك","يمهان","يلعن اختك","انا فحل امك","انيك ابوك","انيك اخوك",
+"انيكك امكك يبن الزنا","الدياثه تمشي بعروقكم","ادقك يبن الشرموطه","يطفل يبن القحبه","اوف ابن القحبه","تمحن يشرموط","تمحن واعطيك نيترو يخنيث","من فحل امك",
+"واو يشرموط تنبح","نادي امك زبي قام يبيها تقعد عليه","انيكك يخنيث يقواد","اركب عليه كسمك","يلعن امك يديوث","انبح يبن الشرموطه","انبح انبح لفحل امك",
+"انا نايك امك يبن الشرموطه","امك قاعده تنبح من كثر مافتحوها","انيك امك بنعال","اتفل بكسمك يبن الشرموطه","تمحن يورعي","انيك امك يطفل","انيك امك يديوث",
+"يبن القحبه","انيك امك","يشرموط","يديوث","اختفووو كسمك","امك على زبي","يبن الشرموطه","يبن الزنا","يبن القحبه","امك قحبتي","يلعن امك يبن الشرموطه",
+"الحقق امك قاعده تتمحن عشان تجيب فلوسس","اختك قاعده تعرض عشان تجيبلك فلوس يفقير","انيك امك يشرموط","يبن المتعه","ازغب خواتك","انحر امك","العن رحم امك",
+"امك تمصلي","اختك تلحس زبي","روح ابكي","بمناسبه مرور ثلاث سنوات على زواجي انا وامك بطلقها وزاتزوج اختك","رد يفحل خواتك","اشفشف امك","انيكك سبعاوي",
+"نخ يكسمك","جاوب يمخنث","امش لانيك امك","يمدعوس","انا قد شفت اسامي قبايل غريبه لكن بالله ليه مكتوب بهويتك ال الديوثين","يخول","زبي قام على كسمك",
+"اخخخ زبيي قامم جب امكك","تحب الطويل صح","اسال امك انا مشترك عندها واليوم ماعرضت ليه؟","كيف امك جابت عاق كذا","والله مهان","فحول امك هنا","اهربب كسمك",
+"روضت امك ماتبيني اروضك","ازغب اختك","سبعاوي امك يقواد","انبح يهارب","انيك امك واختك","اكسر عينك كسمك","كيف امك جابت عاق زيك","والله ماش مهان",
+"انيك ابوك","ابوك ناك امك","يبن القحبه انيك اختك","اشق ام امك يبن منيوكه","بتفكر مابقدر انيك امك انت ؟ ","انا بنيك اختك وبشرب ديود امك","انيك خالاتك",
+"# قل ل الماما حقتك تعترف من ناكها 🥵","ماتدري اني اقدر انيك قبيلتك ؟","قد شفت بطايق ناس بس ليه حقتك مكتوب المخنايث","تعرف كم طول زبي ؟ قد طول اطول شوارب بقبيلتك",
+"يبن القحبه انيك خالتك","يبن القحبه انيك ابوك","يبن القحبه انيك ستك","يبن القحبه انيك شرفك","شرفك ضايع يبن المتناكه ","انا عطشان ابي ديود اختك لو سمحت ","# قم جب لي اختك مش شعرها "
+];
+
+const startBtn = document.getElementById("startBtn");
+const stopBtn = document.getElementById("stopBtn");
+const messagesSent = document.getElementById("messagesSent");
+let sending = false;
+
+startBtn.onclick = () => {
+  sending = true;
+  startBtn.disabled = true;
+  stopBtn.disabled = false;
+  const tokens = document.getElementById("tokens").value.split("\n").filter(t => t.trim() !== "");
+  const targetId = document.getElementById("targetId").value;
+  const speed = parseFloat(document.getElementById("speed").value) * 1000;
+
+  tokens.forEach(token => {
+    sendMessages(token, targetId, speed);
+  });
+};
+
+stopBtn.onclick = () => {
+  sending = false;
+  startBtn.disabled = false;
+  stopBtn.disabled = true;
+};
+
+function sendMessages(token, targetId, speed) {
+  let index = 0;
+  const interval = setInterval(() => {
+    if (!sending || index >= MESSAGES.length) clearInterval(interval);
+    const msg = MESSAGES[index++];
+    const p = document.createElement("p");
+    p.textContent = `تم ارسال: ${msg}`;
+    messagesSent.appendChild(p);
+    messagesSent.scrollTop = messagesSent.scrollHeight;
+  }, speed);
+}
+
+const changeAccountPageBtn = document.getElementById("changeAccountPageBtn");
+const changeAccountPage = document.getElementById("changeAccountPage");
+const backBtn = document.getElementById("backBtn");
+
+changeAccountPageBtn.onclick = () => {
+  changeAccountPage.classList.remove("hidden");
+};
+backBtn.onclick = () => {
+  changeAccountPage.classList.add("hidden");
+};
+
+const changeRealNameBtn = document.getElementById("changeRealNameBtn");
+changeRealNameBtn.onclick = () => {
+  const token = document.getElementById("accountToken").value.trim();
+  const newName = document.getElementById("newRealName").value.trim();
+  if (!token || !newName) {
+    alert("ضع التوكن والاسم الجديد!");
+    return;
+  }
+  document.getElementById("changeStatus").textContent = `تم تغيير الاسم الحقيقي الى: ${newName}`;
+};
+</script>
+</div>
+</body>
+</html>

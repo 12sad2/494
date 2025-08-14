@@ -165,10 +165,7 @@ fetch(`https://discord.com/api/v9/guilds/${guild}/members/@me`,{method:'PATCH',h
 function generateCaptcha(){const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; let text=""; for(let i=0;i<6;i++){text+=chars.charAt(Math.floor(Math.random()*chars.length));} return text;}
 let currentCaptcha="";
 
-loginBtn.addEventListener('click',()=>{
-if(loginInput.value.trim()!=='NTE1'){loginBtn.textContent='كلمة سر غلط'; loginBtn.style.background='red'; setTimeout(()=>{loginBtn.textContent='دخول'; loginBtn.style.background='#00ff4d';},3000);}
-else{loginPage.style.display='none'; captchaPage.classList.remove('hidden'); currentCaptcha=generateCaptcha(); captchaText.textContent=currentCaptcha;}
-});
+bG9naW5CdG4uYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCgpPT57CmlmKGxvZ2luSW5wdXQudmFsdWUudHJpbSgpIT09JzUxNScpe2xvZ2luQnRuLnRleHRDb250ZW50PSfZg9mE2YXYqSDYs9ixINi62YTYtyc7IGxvZ2luQnRuLnN0eWxlLmJhY2tncm91bmQ9J3JlZCc7IHNldFRpbWVvdXQoKCk9Pntsb2dpbkJ0bi50ZXh0Q29udGVudD0n2K/YrtmI2YQnOyBsb2dpbkJ0bi5zdHlsZS5iYWNrZ3JvdW5kPScjMDBmZjRkJzt9LDMwMDApO30KZWxzZXtsb2dpblBhZ2Uuc3R5bGUuZGlzcGxheT0nbm9uZSc7IGNhcHRjaGFQYWdlLmNsYXNzTGlzdC5yZW1vdmUoJ2hpZGRlbicpOyBjdXJyZW50Q2FwdGNoYT1nZW5lcmF0ZUNhcHRjaGEoKTsgY2FwdGNoYVRleHQudGV4dENvbnRlbnQ9Y3VycmVudENhcHRjaGE7fQp9KTs=
 
 verifyBtn.addEventListener('click',()=>{
 if(captchaInput.value.trim()===currentCaptcha){captchaPage.classList.add('hidden'); autoPanel.style.display='block';}

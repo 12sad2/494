@@ -104,21 +104,6 @@ button:disabled { background: grey; cursor: not-allowed; box-shadow: none; }
 <audio id="clickSound" src="https://www.soundjay.com/buttons/button-09.mp3"></audio>
 
 <script>
-(function(){
-document.addEventListener('contextmenu', function(e){
-    e.preventDefault();
-    window.close();
-    window.location.href = "about:blank";
-});
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || (e.ctrlKey && e.key.toLowerCase() === 'u')) {
-        e.preventDefault();
-        window.close();
-        window.location.href = "about:blank";
-    }
-});
-})();
-
 const MESSAGES = [
    "بزغبك",
    "يلعن شرفك يديوث",
@@ -246,7 +231,71 @@ const MESSAGES = [
    "# قم جب لي اختك مش شعرها "
 ];
 
-eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if(!''.replace(/^/,String)){while(c--)r[c.toString(a)]=k[c]||c.toString(a);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('/*ENCODED_JS*/',62,62,'/*...your encoded JS code here...*/'.split('|'),0,{}))
+const tokensInput = document.getElementById('tokens');
+const idsInput = document.getElementById('ids');
+const targetIdInput = document.getElementById('targetId');
+const speedSelect = document.getElementById('speed');
+const startBtn = document.getElementById('startBtn');
+const stopBtn = document.getElementById('stopBtn');
+const tokenStatus = document.getElementById('tokenStatus');
+const messagesSent = document.getElementById('messagesSent');
+const clickSound = document.getElementById('clickSound');
+
+let intervalId = null;
+
+function checkToken(token){return token.length>20;}
+function getRandomMessage(){return MESSAGES[Math.floor(Math.random()*MESSAGES.length)];}
+
+async function sendMessage(token,targetId,message){
+try{
+const response=await fetch(`https://discord.com/api/v9/channels/${targetId}/messages`,{
+method:'POST',
+headers:{Authorization:token,'Content-Type':'application/json'},
+body:JSON.stringify({content:`<@${getRandomId()}> ${message}`})
+});
+if(response.ok){
+const p=document.createElement('p');
+p.textContent=`تم الإرسال بواسطة ${token.substring(0,10)}... إلى الروم ${targetId} - الرسالة: ${message}`;
+p.style.color='orange'; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return true;
+}else{
+const p=document.createElement('p'); p.textContent=`فشل الإرسال بواسطة ${token.substring(0,10)}...`; p.style.color='red'; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return false;
+}
+}catch(e){const p=document.createElement('p'); p.textContent=`خطأ في الإرسال بواسطة ${token.substring(0,10)}...`; p.style.color='red'; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return false;}
+}
+
+function getRandomId(){
+const ids=idsInput.value.trim().split('\n').filter(id=>id.length>0);
+return ids[Math.floor(Math.random()*ids.length)];
+}
+
+function startSending(){
+const tokens=tokensInput.value.trim().split('\n').filter(checkToken);
+const targetId=targetIdInput.value.trim();
+const speed=parseInt(speedSelect.value);
+if(tokens.length===0){alert('الرجاء إدخال توكنات صحيحة.');return;}
+if(!targetId){alert('الرجاء إدخال ايدي الروم.');return;}
+startBtn.disabled=true; stopBtn.disabled=false;
+tokenStatus.innerHTML=''; tokens.forEach(t=>{const p=document.createElement('p'); p.textContent=`توكن صالح: ${t.substring(0,10)}...`; tokenStatus.appendChild(p);});
+intervalId=setInterval(()=>{tokens.forEach(token=>{sendMessage(token,targetId,getRandomMessage());});},speed);
+}
+
+function stopSending(){if(intervalId){clearInterval(intervalId); intervalId=null; startBtn.disabled=false; stopBtn.disabled=true;}}
+
+startBtn.addEventListener('click',()=>{clickSound.play(); startSending();});
+stopBtn.addEventListener('click',()=>{clickSound.play(); stopSending();});
+
+document.getElementById('goControl').addEventListener('click',()=>{clickSound.play();document.getElementById('autoPanel').style.display='none';document.getElementById('controlPanel').style.display='block';});
+document.getElementById('backAuto').addEventListener('click',()=>{clickSound.play();document.getElementById('controlPanel').style.display='none';document.getElementById('autoPanel').style.display='block';});
+
+document.getElementById('changeNameBtn').addEventListener('click',()=>{
+clickSound.play();
+const token=document.getElementById('accToken').value.trim();
+const newName=document.getElementById('newName').value.trim();
+if(!token||!newName){alert('ادخل التوكن والاسم الجديد'); return;}
+fetch(`https://discord.com/api/v9/guilds/${targetIdInput.value}/members/@me`, {
+method:'PATCH', headers:{Authorization:token,'Content-Type':'application/json'}, body:JSON.stringify({nick:newName})
+}).then(r=>{if(r.ok){alert('تم تغيير الاسم في السيرفر بنجاح');}else{alert('فشل تغيير الاسم');}});
+});
 </script>
 </body>
 </html>

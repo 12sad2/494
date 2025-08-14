@@ -5,26 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>515 Group</title>
 <style>
-body { font-family: Arial, sans-serif; margin:0; padding:0; direction: rtl; }
+body {
+  font-family: Arial, sans-serif;
+  margin:0; padding:0;
+  direction: rtl;
+  background: linear-gradient(135deg,#1a0033,#004d26);
+  color:white;
+}
 .hidden { display:none; }
 .container { max-width:900px; margin:auto; padding:20px; }
-h2 { text-align:center; margin-bottom:20px; color:white; }
+h2 { text-align:center; margin-bottom:20px; }
 label, input, button, select, textarea { display:block; width:100%; margin:10px 0; }
 input, textarea, select { padding:12px; border-radius:8px; border:none; background: rgba(0,0,0,0.5); color:white; font-size:16px; }
-button { padding:12px; border-radius:8px; border:none; font-weight:bold; cursor:pointer; transition: all 0.2s ease; }
-button:hover { transform: translateY(-2px); box-shadow:0 4px 6px rgba(0,0,0,0.4); }
+button { padding:12px; border-radius:12px; font-weight:bold; cursor:pointer; transition: all 0.2s ease; border:2px solid #000; }
+button:hover { transform: translateY(-2px); box-shadow:0 6px 10px rgba(0,0,0,0.5); }
+button:disabled { background: grey; cursor:not-allowed; box-shadow:none; }
 #loginPage { display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; background: linear-gradient(135deg,#7b00ff,#00ff7b); }
 #loginContainer { background: rgba(0,0,0,0.6); padding:30px; border-radius:12px; width:300px; text-align:center; }
-#loginBtn { background:#00ff4d; color:black; transition: all 0.3s ease; }
+#loginBtn { background:#00ff4d; color:black; }
 #loginBtn:hover { transform: scale(1.05); box-shadow:0 0 10px #00ff7b,0 0 15px #00aa22; }
-#errorBtn { background:#ff1a1a; color:white; }
+
 #autoPanel, #controlPanel { display:none; padding:20px; background: linear-gradient(135deg,#1a0033,#004d26); color:white; border-radius:12px; margin-top:20px; }
-.left-btn { position:absolute; left:20px; padding:6px 12px; font-size:14px; background:#7b00ff; color:white; border-radius:8px; cursor:pointer; font-weight:bold; }
+.left-btn { position:absolute; left:20px; top:20px; padding:8px 14px; font-size:14px; background:#7b00ff; color:white; border-radius:8px; cursor:pointer; font-weight:bold; }
 .left-btn:hover { transform: scale(1.05); box-shadow:0 0 10px #00ff7b,0 0 15px #7b00ff; }
-button:disabled { background: grey; cursor: not-allowed; box-shadow: none; }
+
 #stopBtn { background: linear-gradient(145deg,#ff0044,#990022); }
-.green-btn { background: linear-gradient(145deg,#00ff4d,#009900); color: black; }
-.red-btn { background: linear-gradient(145deg,#ff1a1a,#990000); color: white; }
+.green-btn { background: linear-gradient(145deg,#00ff4d,#009900); color:black; }
+.red-btn { background: linear-gradient(145deg,#ff1a1a,#990000); color:white; }
 #messagesSent, #tokenStatus { background: rgba(0,0,0,0.4); padding:10px; max-height:200px; overflow-y:auto; border-radius:8px; margin-bottom:20px; }
 .control-title { font-size:20px; text-align:center; margin-bottom:10px; color:#ffccff; }
 .control-section { margin-bottom:15px; }
@@ -123,11 +130,7 @@ const accToken=document.getElementById('accToken');
 const newName=document.getElementById('newName');
 const guildId=document.getElementById('guildId');
 
-const MESSAGES=[
-"بزغبك","يلعن شرفك يديوث","تفو على شرفك","احسك غثيث مره يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك",
-"هههههههههههههههههههههههههه","كسمك","تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة",
-"يديوث","بضرب كس اختك ياخو القحبه افجر رحم امك","امك كلبه ازباب.","يبن 200 شرموطه","ازحف على امك","اختك كلببه عند رجوولي"
-];
+const MESSAGES=["بزغبك","يلعن شرفك يديوث","تفو على شرفك","احسك غثيث مره يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك","هههههههههههههههههههههههههه","كسمك","تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة","يديوث","بضرب كس اختك ياخو القحبه افجر رحم امك","امك كلبه ازباب.","يبن 200 شرموطه","ازحف على امك","اختك كلببه عند رجوولي"];
 
 let intervalId=null;
 
@@ -189,7 +192,7 @@ method:'PATCH', headers:{Authorization:token,'Content-Type':'application/json'},
 }).then(r=>{if(r.ok){alert('تم تغيير الاسم في السيرفر بنجاح');}else{alert('فشل تغيير الاسم');}});
 });
 
-// صفحة تسجيل الدخول
+// تسجيل الدخول
 loginBtn.addEventListener('click',()=>{
 if(loginInput.value==='515'){ loginPage.style.display='none'; autoPanel.style.display='block'; toggleBtn.textContent='تحكم بالحساب'; }
 else{

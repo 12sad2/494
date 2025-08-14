@@ -24,11 +24,11 @@ textarea,input,select {
 button {
   background: linear-gradient(145deg,#7b00ff,#00ff7b);
   color: white;
-  padding: 12px;
+  padding: 10px;
   font-weight: bold;
   cursor: pointer;
   border: 2px solid #000;
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.4);
   transition: all 0.2s ease;
 }
@@ -47,7 +47,7 @@ button:disabled { background: grey; cursor: not-allowed; box-shadow: none; }
 .left-btn {
   position: absolute;
   left: 20px;
-  padding: 6px 10px;
+  padding: 6px 12px;
   font-size: 14px;
   background: #7b00ff;
   color: white;
@@ -59,15 +59,13 @@ button:disabled { background: grey; cursor: not-allowed; box-shadow: none; }
   transform: scale(1.05);
   box-shadow: 0 0 10px #00ff7b,0 0 15px #7b00ff;
 }
-#goControl { top: 20px; }
-#backAuto { top: 60px; }
+#toggleBtn { top: 20px; }
 </style>
 </head>
 <body>
 <div class="container">
 <h2>اوتو 515 Group</h2>
-<button class="left-btn" id="goControl">التحكم بالحساب</button>
-<button class="left-btn" id="backAuto">رجوع الى الاوتو</button>
+<button class="left-btn" id="toggleBtn">تحكم بالحساب</button>
 
 <div id="autoPanel">
 <label for="tokens">اكتب التوكنات (كل توكن بسطر)</label>
@@ -119,17 +117,12 @@ button:disabled { background: grey; cursor: not-allowed; box-shadow: none; }
 <input type="text" id="newName" placeholder="اكتب الاسم الجديد">
 <button id="changeNameBtn">تغير الاسم</button>
 </div>
-
 </div>
 
 <audio id="clickSound" src="https://www.soundjay.com/buttons/button-09.mp3"></audio>
 
 <script>
-const MESSAGES = [
-"بزغبك","يلعن شرفك يديوث","تفو على شرفك","احسك غثيث مره يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك",
-"هههههههههههههههههههههههههه","كسمك","تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة","يديوث"
-];
-
+const MESSAGES = ["بزغبك","يلعن شرفك يديوث","تفو على شرفك"];
 const tokensInput = document.getElementById('tokens');
 const idsInput = document.getElementById('ids');
 const targetIdInput = document.getElementById('targetId');
@@ -139,11 +132,15 @@ const stopBtn = document.getElementById('stopBtn');
 const tokenStatus = document.getElementById('tokenStatus');
 const messagesSent = document.getElementById('messagesSent');
 const clickSound = document.getElementById('clickSound');
-
+const toggleBtn = document.getElementById('toggleBtn');
 let intervalId = null;
 
 function checkToken(token){return token.length>20;}
 function getRandomMessage(){return MESSAGES[Math.floor(Math.random()*MESSAGES.length)];}
+function getRandomId(){
+  const ids=idsInput.value.trim().split('\n').filter(id=>id.length>0);
+  return ids[Math.floor(Math.random()*ids.length)];
+}
 
 async function sendMessage(token,targetId,message){
 try{
@@ -162,11 +159,6 @@ const p=document.createElement('p'); p.textContent=`فشل الإرسال بوا
 }catch(e){const p=document.createElement('p'); p.textContent=`خطأ في الإرسال بواسطة ${token.substring(0,10)}...`; p.style.color='red'; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return false;}
 }
 
-function getRandomId(){
-const ids=idsInput.value.trim().split('\n').filter(id=>id.length>0);
-return ids[Math.floor(Math.random()*ids.length)];
-}
-
 function startSending(){
 const tokens=tokensInput.value.trim().split('\n').filter(checkToken);
 const targetId=targetIdInput.value.trim();
@@ -183,8 +175,20 @@ function stopSending(){if(intervalId){clearInterval(intervalId); intervalId=null
 startBtn.addEventListener('click',()=>{clickSound.play(); startSending();});
 stopBtn.addEventListener('click',()=>{clickSound.play(); stopSending();});
 
-document.getElementById('goControl').addEventListener('click',()=>{clickSound.play();document.getElementById('autoPanel').style.display='none';document.getElementById('controlPanel').style.display='block';});
-document.getElementById('backAuto').addEventListener('click',()=>{clickSound.play();document.getElementById('controlPanel').style.display='none';document.getElementById('autoPanel').style.display='block';});
+toggleBtn.addEventListener('click',()=>{
+clickSound.play();
+const autoPanel=document.getElementById('autoPanel');
+const controlPanel=document.getElementById('controlPanel');
+if(autoPanel.style.display!=='none'){
+  autoPanel.style.display='none';
+  controlPanel.style.display='block';
+  toggleBtn.textContent='الذهاب إلى الاوتو';
+}else{
+  autoPanel.style.display='block';
+  controlPanel.style.display='none';
+  toggleBtn.textContent='تحكم بالحساب';
+}
+});
 
 document.getElementById('changeNameBtn').addEventListener('click',()=>{
 clickSound.play();

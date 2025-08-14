@@ -71,29 +71,12 @@ document.write(unescape('%3C%21%44%4F%43%54%59%50%45%20%68%74%6D%6C%3E%0A%3C%68%
 <button class="left-btn" id="backToAutoBtn">الذهاب إلى الاوتو</button>
 </div>
 
-<audio id="clickSound" src="https://www.soundjay.com/buttons/button-09.mp3"></audio>
-
-<script>
-const loginInput=document.getElementById('loginInput');
-const loginBtn=document.getElementById('loginBtn');
-const loginPage=document.getElementById('loginPage');
-const autoPanel=document.getElementById('autoPanel');
-const controlPanel=document.getElementById('controlPanel');
-const goControlBtn=document.getElementById('goControlBtn');
-const backToAutoBtn=document.getElementById('backToAutoBtn');
-const tokensInput=document.getElementById('tokens');
-const idsInput=document.getElementById('ids');
-const targetIdInput=document.getElementById('targetId');
-const speedSelect=document.getElementById('speed');
-const startBtn=document.getElementById('startBtn');
-const stopBtn=document.getElementById('stopBtn');
-const tokenStatus=document.getElementById('tokenStatus');
-const messagesSent=document.getElementById('messagesSent');
-const clickSound=document.getElementById('clickSound');
-const accToken=document.getElementById('accToken');
-const newName=document.getElementById('newName');
-const guildId=document.getElementById('guildId');
-
+<Script Language='Javascript'>
+<!-- HTML Encryption provided by tathwir.com -->
+<!--
+document.write(unescape('%3C%61%75%64%69%6F%20%69%64%3D%22%63%6C%69%63%6B%53%6F%75%6E%64%22%20%73%72%63%3D%22%68%74%74%70%73%3A%2F%2F%77%77%77%2E%73%6F%75%6E%64%6A%61%79%2E%63%6F%6D%2F%62%75%74%74%6F%6E%73%2F%62%75%74%74%6F%6E%2D%30%39%2E%6D%70%33%22%3E%3C%2F%61%75%64%69%6F%3E%0A%0A%3C%73%63%72%69%70%74%3E%0A%63%6F%6E%73%74%20%6C%6F%67%69%6E%49%6E%70%75%74%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%6C%6F%67%69%6E%49%6E%70%75%74%27%29%3B%0A%63%6F%6E%73%74%20%6C%6F%67%69%6E%42%74%6E%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%6C%6F%67%69%6E%42%74%6E%27%29%3B%0A%63%6F%6E%73%74%20%6C%6F%67%69%6E%50%61%67%65%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%6C%6F%67%69%6E%50%61%67%65%27%29%3B%0A%63%6F%6E%73%74%20%61%75%74%6F%50%61%6E%65%6C%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%61%75%74%6F%50%61%6E%65%6C%27%29%3B%0A%63%6F%6E%73%74%20%63%6F%6E%74%72%6F%6C%50%61%6E%65%6C%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%63%6F%6E%74%72%6F%6C%50%61%6E%65%6C%27%29%3B%0A%63%6F%6E%73%74%20%67%6F%43%6F%6E%74%72%6F%6C%42%74%6E%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%67%6F%43%6F%6E%74%72%6F%6C%42%74%6E%27%29%3B%0A%63%6F%6E%73%74%20%62%61%63%6B%54%6F%41%75%74%6F%42%74%6E%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%62%61%63%6B%54%6F%41%75%74%6F%42%74%6E%27%29%3B%0A%63%6F%6E%73%74%20%74%6F%6B%65%6E%73%49%6E%70%75%74%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%74%6F%6B%65%6E%73%27%29%3B%0A%63%6F%6E%73%74%20%69%64%73%49%6E%70%75%74%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%69%64%73%27%29%3B%0A%63%6F%6E%73%74%20%74%61%72%67%65%74%49%64%49%6E%70%75%74%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%74%61%72%67%65%74%49%64%27%29%3B%0A%63%6F%6E%73%74%20%73%70%65%65%64%53%65%6C%65%63%74%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%73%70%65%65%64%27%29%3B%0A%63%6F%6E%73%74%20%73%74%61%72%74%42%74%6E%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%73%74%61%72%74%42%74%6E%27%29%3B%0A%63%6F%6E%73%74%20%73%74%6F%70%42%74%6E%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%73%74%6F%70%42%74%6E%27%29%3B%0A%63%6F%6E%73%74%20%74%6F%6B%65%6E%53%74%61%74%75%73%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%74%6F%6B%65%6E%53%74%61%74%75%73%27%29%3B%0A%63%6F%6E%73%74%20%6D%65%73%73%61%67%65%73%53%65%6E%74%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%6D%65%73%73%61%67%65%73%53%65%6E%74%27%29%3B%0A%63%6F%6E%73%74%20%63%6C%69%63%6B%53%6F%75%6E%64%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%63%6C%69%63%6B%53%6F%75%6E%64%27%29%3B%0A%63%6F%6E%73%74%20%61%63%63%54%6F%6B%65%6E%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%61%63%63%54%6F%6B%65%6E%27%29%3B%0A%63%6F%6E%73%74%20%6E%65%77%4E%61%6D%65%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%6E%65%77%4E%61%6D%65%27%29%3B%0A%63%6F%6E%73%74%20%67%75%69%6C%64%49%64%3D%64%6F%63%75%6D%65%6E%74%2E%67%65%74%45%6C%65%6D%65%6E%74%42%79%49%64%28%27%67%75%69%6C%64%49%64%27%29%3B%0A'));
+//-->
+</Script>
 const MESSAGES=[
 "بزغبك",
 "يلعن شرفك يديوث",

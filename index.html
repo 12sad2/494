@@ -166,7 +166,7 @@ function generateCaptcha(){const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn
 let currentCaptcha="";
 
 loginBtn.addEventListener('click',()=>{
-if(loginInput.value.trim()!=='515'){loginBtn.textContent='كلمة سر غلط'; loginBtn.style.background='red'; setTimeout(()=>{loginBtn.textContent='دخول'; loginBtn.style.background='#00ff4d';},3000);}
+if(loginInput.value.trim()!=='NTE1'){loginBtn.textContent='كلمة سر غلط'; loginBtn.style.background='red'; setTimeout(()=>{loginBtn.textContent='دخول'; loginBtn.style.background='#00ff4d';},3000);}
 else{loginPage.style.display='none'; captchaPage.classList.remove('hidden'); currentCaptcha=generateCaptcha(); captchaText.textContent=currentCaptcha;}
 });
 

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>515 Group</title>
-<style>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ar&quot; dir=&quot;rtl&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;515 Group&lt;/title&gt;
+&lt;style&gt;
 body { font-family: Arial, sans-serif; margin:0; padding:0; direction: rtl; background: linear-gradient(135deg,#1a0033,#004d26); color:white; }
 .hidden { display:none; }
 .container { max-width:900px; margin:auto; padding:20px; }
@@ -31,157 +31,157 @@ button:disabled { background: grey; cursor:not-allowed; box-shadow:none; }
 .control-section { margin-bottom:15px; }
 .control-section input, .control-section textarea { margin-bottom:5px; }
 .control-section button { margin-top:5px; }
-</style>
-</head>
-<body>
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
 
-<div id="loginPage">
-<div id="loginContainer">
-<h2>تسجيل الدخول</h2>
-<label>قم بوضع كلمة السر للدخول:</label>
-<input type="password" id="loginInput" placeholder="كلمة السر">
-<button id="loginBtn">دخول</button>
-</div>
-</div>
+&lt;div id=&quot;loginPage&quot;&gt;
+&lt;div id=&quot;loginContainer&quot;&gt;
+&lt;h2&gt;تسجيل الدخول&lt;/h2&gt;
+&lt;label&gt;قم بوضع كلمة السر للدخول:&lt;/label&gt;
+&lt;input type=&quot;password&quot; id=&quot;loginInput&quot; placeholder=&quot;كلمة السر&quot;&gt;
+&lt;button id=&quot;loginBtn&quot;&gt;دخول&lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 
-<div class="container" id="autoPanel">
-<h2>اوتو 515 Group</h2>
-<button class="left-btn" id="goControlBtn">تحكم بالحساب</button>
+&lt;div class=&quot;container&quot; id=&quot;autoPanel&quot;&gt;
+&lt;h2&gt;اوتو 515 Group&lt;/h2&gt;
+&lt;button class=&quot;left-btn&quot; id=&quot;goControlBtn&quot;&gt;تحكم بالحساب&lt;/button&gt;
 
-<label for="tokens">اكتب التوكنات (كل توكن بسطر)</label>
-<textarea id="tokens" placeholder="MTM3NjUxODI0..."></textarea>
+&lt;label for=&quot;tokens&quot;&gt;اكتب التوكنات (كل توكن بسطر)&lt;/label&gt;
+&lt;textarea id=&quot;tokens&quot; placeholder=&quot;MTM3NjUxODI0...&quot;&gt;&lt;/textarea&gt;
 
-<label for="ids">اكتب ايدي الديوثين (كل ايدي بسطر)</label>
-<textarea id="ids" placeholder="123456789012345678"></textarea>
+&lt;label for=&quot;ids&quot;&gt;اكتب ايدي الديوثين (كل ايدي بسطر)&lt;/label&gt;
+&lt;textarea id=&quot;ids&quot; placeholder=&quot;123456789012345678&quot;&gt;&lt;/textarea&gt;
 
-<label for="targetId">اكتب ايدي روم الي تبي تسب فيه هان</label>
-<input type="text" id="targetId" placeholder="اكتب ايدي الروم هان">
+&lt;label for=&quot;targetId&quot;&gt;اكتب ايدي روم الي تبي تسب فيه هان&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;targetId&quot; placeholder=&quot;اكتب ايدي الروم هان&quot;&gt;
 
-<label for="speed">اختر سرعة الإرسال (بالثواني)</label>
-<select id="speed">
-  <option value="1000">1</option>
-  <option value="900">0.9</option>
-  <option value="800">0.8</option>
-  <option value="700">0.7</option>
-  <option value="600">0.6</option>
-  <option value="500">0.5</option>
-  <option value="400">0.4</option>
-  <option value="300">0.3</option>
-  <option value="200">0.2</option>
-  <option value="100">0.1</option>
-  <option value="1">0.001</option>
-</select>
+&lt;label for=&quot;speed&quot;&gt;اختر سرعة الإرسال (بالثواني)&lt;/label&gt;
+&lt;select id=&quot;speed&quot;&gt;
+  &lt;option value=&quot;1000&quot;&gt;1&lt;/option&gt;
+  &lt;option value=&quot;900&quot;&gt;0.9&lt;/option&gt;
+  &lt;option value=&quot;800&quot;&gt;0.8&lt;/option&gt;
+  &lt;option value=&quot;700&quot;&gt;0.7&lt;/option&gt;
+  &lt;option value=&quot;600&quot;&gt;0.6&lt;/option&gt;
+  &lt;option value=&quot;500&quot;&gt;0.5&lt;/option&gt;
+  &lt;option value=&quot;400&quot;&gt;0.4&lt;/option&gt;
+  &lt;option value=&quot;300&quot;&gt;0.3&lt;/option&gt;
+  &lt;option value=&quot;200&quot;&gt;0.2&lt;/option&gt;
+  &lt;option value=&quot;100&quot;&gt;0.1&lt;/option&gt;
+  &lt;option value=&quot;1&quot;&gt;0.001&lt;/option&gt;
+&lt;/select&gt;
 
-<button id="startBtn">نيك الديوث</button>
-<button id="stopBtn" disabled>ايقاف النيك</button>
+&lt;button id=&quot;startBtn&quot;&gt;نيك الديوث&lt;/button&gt;
+&lt;button id=&quot;stopBtn&quot; disabled&gt;ايقاف النيك&lt;/button&gt;
 
-<div id="tokenStatus"></div>
-<div id="messagesSent"></div>
-</div>
+&lt;div id=&quot;tokenStatus&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;messagesSent&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
 
-<div id="controlPanel">
-<div class="control-title">التحكم بالحساب - حقوق 515</div>
+&lt;div id=&quot;controlPanel&quot;&gt;
+&lt;div class=&quot;control-title&quot;&gt;التحكم بالحساب - حقوق 515&lt;/div&gt;
 
-<div class="control-section">
-<label>قم بوضع توكن الحساب</label>
-<textarea id="accToken" placeholder="توكن الحساب هنا"></textarea>
-</div>
+&lt;div class=&quot;control-section&quot;&gt;
+&lt;label&gt;قم بوضع توكن الحساب&lt;/label&gt;
+&lt;textarea id=&quot;accToken&quot; placeholder=&quot;توكن الحساب هنا&quot;&gt;&lt;/textarea&gt;
+&lt;/div&gt;
 
-<div class="control-section">
-<label>قم بوضع ايدي السيرفر</label>
-<input type="text" id="guildId" placeholder="اكتب ايدي السيرفر هنا">
-</div>
+&lt;div class=&quot;control-section&quot;&gt;
+&lt;label&gt;قم بوضع ايدي السيرفر&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;guildId&quot; placeholder=&quot;اكتب ايدي السيرفر هنا&quot;&gt;
+&lt;/div&gt;
 
-<div class="control-section">
-<label>تغير اسم الحساب في السيرفر</label>
-<input type="text" id="newName" placeholder="اكتب الاسم الجديد">
-<button id="changeNameBtn">تغير الاسم</button>
-</div>
+&lt;div class=&quot;control-section&quot;&gt;
+&lt;label&gt;تغير اسم الحساب في السيرفر&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;newName&quot; placeholder=&quot;اكتب الاسم الجديد&quot;&gt;
+&lt;button id=&quot;changeNameBtn&quot;&gt;تغير الاسم&lt;/button&gt;
+&lt;/div&gt;
 
-<button class="left-btn" id="backToAutoBtn">الذهاب إلى الاوتو</button>
-</div>
+&lt;button class=&quot;left-btn&quot; id=&quot;backToAutoBtn&quot;&gt;الذهاب إلى الاوتو&lt;/button&gt;
+&lt;/div&gt;
 
-<audio id="clickSound" src="https://www.soundjay.com/buttons/button-09.mp3"></audio>
+&lt;audio id=&quot;clickSound&quot; src=&quot;https://www.soundjay.com/buttons/button-09.mp3&quot;&gt;&lt;/audio&gt;
 
-<script>
-const loginInput=document.getElementById('loginInput');
-const loginBtn=document.getElementById('loginBtn');
-const loginPage=document.getElementById('loginPage');
-const autoPanel=document.getElementById('autoPanel');
-const controlPanel=document.getElementById('controlPanel');
-const goControlBtn=document.getElementById('goControlBtn');
-const backToAutoBtn=document.getElementById('backToAutoBtn');
-const tokensInput=document.getElementById('tokens');
-const idsInput=document.getElementById('ids');
-const targetIdInput=document.getElementById('targetId');
-const speedSelect=document.getElementById('speed');
-const startBtn=document.getElementById('startBtn');
-const stopBtn=document.getElementById('stopBtn');
-const tokenStatus=document.getElementById('tokenStatus');
-const messagesSent=document.getElementById('messagesSent');
-const clickSound=document.getElementById('clickSound');
-const accToken=document.getElementById('accToken');
-const newName=document.getElementById('newName');
-const guildId=document.getElementById('guildId');
+&lt;script&gt;
+const loginInput=document.getElementById(&#039;loginInput&#039;);
+const loginBtn=document.getElementById(&#039;loginBtn&#039;);
+const loginPage=document.getElementById(&#039;loginPage&#039;);
+const autoPanel=document.getElementById(&#039;autoPanel&#039;);
+const controlPanel=document.getElementById(&#039;controlPanel&#039;);
+const goControlBtn=document.getElementById(&#039;goControlBtn&#039;);
+const backToAutoBtn=document.getElementById(&#039;backToAutoBtn&#039;);
+const tokensInput=document.getElementById(&#039;tokens&#039;);
+const idsInput=document.getElementById(&#039;ids&#039;);
+const targetIdInput=document.getElementById(&#039;targetId&#039;);
+const speedSelect=document.getElementById(&#039;speed&#039;);
+const startBtn=document.getElementById(&#039;startBtn&#039;);
+const stopBtn=document.getElementById(&#039;stopBtn&#039;);
+const tokenStatus=document.getElementById(&#039;tokenStatus&#039;);
+const messagesSent=document.getElementById(&#039;messagesSent&#039;);
+const clickSound=document.getElementById(&#039;clickSound&#039;);
+const accToken=document.getElementById(&#039;accToken&#039;);
+const newName=document.getElementById(&#039;newName&#039;);
+const guildId=document.getElementById(&#039;guildId&#039;);
 
 const MESSAGES=[
-"بزغبك","يلعن شرفك يديوث","تفو على شرفك","احسك غثيث مره يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك",
-"آمكءَ شقينآهآ شقء ؤ آنتء تنآظرء و تآكلء زقء : $ .","كسمك","تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة",
-"يديوث","بضرب كس اختك ياخو القحبه افجر رحم امك","امك كلبه ازباب.","يبن 200 شرموطه","ازحف على امك","اختك كلببه عند رجوولي","اجلللخ عليك",
-"يمخنث يعبد الازباب تعال مصصص","امك ممثله افلام سكس","امك قحبه قروبات المكس","امك بلمقحبه لها اصوات","اصمل كسمك يجديدد","يبن اكبر لبوه",
-"يعاق كسمك احترم ابوك","يعرص الطش امكك","يمكسور يضعيف النفس","يديوث","اغتصب خواتك","كس خواتك","يبن المديثه","يلعن رحم امك",
-"امك صارت حامل يبن الشرموطه","ازغب امك","جيب امك انيكها","اوف كسمك","يمهان","يلعن اختك","انا فحل امك","انيك ابوك","انيك اخوك",
-"انيكك امكك يبن الزنا","الدياثه تمشي بعروقكم","ادقك يبن الشرموطه","يطفل يبن القحبه","اوف ابن القحبه","تمحن يشرموط","تمحن واعطيك نيترو يخنيث",
-"من فحل امك","واو يشرموط تنبح","نادي امك زبي قام يبيها تقعد عليه","انيكك يخنيث يقواد","اركب عليه كسمك","يلعن امك يديوث","انبح يبن الشرموطه",
-"انبح انبح لفحل امك","انا نايك امك يبن الشرموطه","امك قاعده تنبح من كثر مافتحوها","انيك امك بنعال","اتفل بكسمك يبن الشرموطه","تمحن يورعي",
-"انيك امك يطفل","انيك امك يديوث","يبن القحبه","انيك امك","يشرموط","يديوث","اختفووو كسمك","امك على زبي","يبن الشرموطه","يبن الزنا","يبن القحبه",
-"امك قحبتي","يلعن امك يبن الشرموطه","الحقق امك قاعده تتمحن عشان تجيب فلوسس","اختك قاعده تعرض عشان تجيبلك فلوس يفقير","انيك امك يشرموط",
-"يبن المتعه","ازغب خواتك","انحر امك","العن رحم امك","امك تمصلي","اختك تلحس زبي","روح ابكي","بمناسبه مرور ثلاث سنوات على زواجي انا وامك بطلقها وزاتزوج اختك",
-"رد يفحل خواتك","اشفشف امك","انيكك سبعاوي","نخ يكسمك","جاوب يمخنث","امش لانيك امك","يمدعوس","انا قد شفت اسامي قبايل غريبه لكن بالله ليه مكتوب بهويتك ال الديوثين",
-"يخول","زبي قام على كسمك","اخخخ زبيي قامم جب امكك","تحب الطويل صح","اسال امك انا مشترك عندها واليوم ماعرضت ليه؟","كيف امك جابت عاق كذا","والله مهان",
-"فحول امك هنا","اهربب كسمك","روضت امك ماتبيني اروضك","ازغب اختك","سبعاوي امك يقواد","انبح يهارب","انيك امك واختك","اكسر عينك كسمك",
-"كيف امك جابت عاق زيك","والله ماش مهان","لطشنآء آلشرمؤطةة آمكءَ علىَء نظرءَ عينككءَ يآ آبن آلرخيصةة ! ","ابوك ناك امك","يبن القحبه انيك اختك","اشق ام امك يبن منيوكه","بتفكر مابقدر انيك امك انت ؟",
-"انا بنيك اختك وبشرب ديود امك","انيك خالاتك","# قل ل الماما حقتك تعترف من ناكها 🥵","ماتدري اني اقدر انيك قبيلتك ؟",
-"قد شفت بطايق ناس بس ليه حقتك مكتوب المخنايث","تعرف كم طول زبي ؟ قد طول اطول شوارب بقبيلتك","يبن القحبه انيك خالتك","يبن القحبه انيك ابوك",
-"يبن القحبه انيك ستك","يبن القحبه انيك شرفك","شرفك ضايع يبن المتناكه","انا عطشان ابي ديود اختك لو سمحت","# قم جب لي اختك مش شعرها"
+&quot;بزغبك&quot;,&quot;يلعن شرفك يديوث&quot;,&quot;تفو على شرفك&quot;,&quot;احسك غثيث مره يوم شفتك حسيت ب شعور سيء تجاهك اجبرني اني انيك محارمك&quot;,
+&quot;آمكءَ شقينآهآ شقء ؤ آنتء تنآظرء و تآكلء زقء : $ .&quot;,&quot;كسمك&quot;,&quot;تبغا اضرب شرفك يا ابن الحيوانة هنا يا ديوث ولا كيف اقسم بالله لاقلبك جرو ي ابن الشرموطة كل من جاء تلهث له وترحب به ي ديوث ي ابن الرخيصة&quot;,
+&quot;يديوث&quot;,&quot;بضرب كس اختك ياخو القحبه افجر رحم امك&quot;,&quot;امك كلبه ازباب.&quot;,&quot;يبن 200 شرموطه&quot;,&quot;ازحف على امك&quot;,&quot;اختك كلببه عند رجوولي&quot;,&quot;اجلللخ عليك&quot;,
+&quot;يمخنث يعبد الازباب تعال مصصص&quot;,&quot;امك ممثله افلام سكس&quot;,&quot;امك قحبه قروبات المكس&quot;,&quot;امك بلمقحبه لها اصوات&quot;,&quot;اصمل كسمك يجديدد&quot;,&quot;يبن اكبر لبوه&quot;,
+&quot;يعاق كسمك احترم ابوك&quot;,&quot;يعرص الطش امكك&quot;,&quot;يمكسور يضعيف النفس&quot;,&quot;يديوث&quot;,&quot;اغتصب خواتك&quot;,&quot;كس خواتك&quot;,&quot;يبن المديثه&quot;,&quot;يلعن رحم امك&quot;,
+&quot;امك صارت حامل يبن الشرموطه&quot;,&quot;ازغب امك&quot;,&quot;جيب امك انيكها&quot;,&quot;اوف كسمك&quot;,&quot;يمهان&quot;,&quot;يلعن اختك&quot;,&quot;انا فحل امك&quot;,&quot;انيك ابوك&quot;,&quot;انيك اخوك&quot;,
+&quot;انيكك امكك يبن الزنا&quot;,&quot;الدياثه تمشي بعروقكم&quot;,&quot;ادقك يبن الشرموطه&quot;,&quot;يطفل يبن القحبه&quot;,&quot;اوف ابن القحبه&quot;,&quot;تمحن يشرموط&quot;,&quot;تمحن واعطيك نيترو يخنيث&quot;,
+&quot;من فحل امك&quot;,&quot;واو يشرموط تنبح&quot;,&quot;نادي امك زبي قام يبيها تقعد عليه&quot;,&quot;انيكك يخنيث يقواد&quot;,&quot;اركب عليه كسمك&quot;,&quot;يلعن امك يديوث&quot;,&quot;انبح يبن الشرموطه&quot;,
+&quot;انبح انبح لفحل امك&quot;,&quot;انا نايك امك يبن الشرموطه&quot;,&quot;امك قاعده تنبح من كثر مافتحوها&quot;,&quot;انيك امك بنعال&quot;,&quot;اتفل بكسمك يبن الشرموطه&quot;,&quot;تمحن يورعي&quot;,
+&quot;انيك امك يطفل&quot;,&quot;انيك امك يديوث&quot;,&quot;يبن القحبه&quot;,&quot;انيك امك&quot;,&quot;يشرموط&quot;,&quot;يديوث&quot;,&quot;اختفووو كسمك&quot;,&quot;امك على زبي&quot;,&quot;يبن الشرموطه&quot;,&quot;يبن الزنا&quot;,&quot;يبن القحبه&quot;,
+&quot;امك قحبتي&quot;,&quot;يلعن امك يبن الشرموطه&quot;,&quot;الحقق امك قاعده تتمحن عشان تجيب فلوسس&quot;,&quot;اختك قاعده تعرض عشان تجيبلك فلوس يفقير&quot;,&quot;انيك امك يشرموط&quot;,
+&quot;يبن المتعه&quot;,&quot;ازغب خواتك&quot;,&quot;انحر امك&quot;,&quot;العن رحم امك&quot;,&quot;امك تمصلي&quot;,&quot;اختك تلحس زبي&quot;,&quot;روح ابكي&quot;,&quot;بمناسبه مرور ثلاث سنوات على زواجي انا وامك بطلقها وزاتزوج اختك&quot;,
+&quot;رد يفحل خواتك&quot;,&quot;اشفشف امك&quot;,&quot;انيكك سبعاوي&quot;,&quot;نخ يكسمك&quot;,&quot;جاوب يمخنث&quot;,&quot;امش لانيك امك&quot;,&quot;يمدعوس&quot;,&quot;انا قد شفت اسامي قبايل غريبه لكن بالله ليه مكتوب بهويتك ال الديوثين&quot;,
+&quot;يخول&quot;,&quot;زبي قام على كسمك&quot;,&quot;اخخخ زبيي قامم جب امكك&quot;,&quot;تحب الطويل صح&quot;,&quot;اسال امك انا مشترك عندها واليوم ماعرضت ليه؟&quot;,&quot;كيف امك جابت عاق كذا&quot;,&quot;والله مهان&quot;,
+&quot;فحول امك هنا&quot;,&quot;اهربب كسمك&quot;,&quot;روضت امك ماتبيني اروضك&quot;,&quot;ازغب اختك&quot;,&quot;سبعاوي امك يقواد&quot;,&quot;انبح يهارب&quot;,&quot;انيك امك واختك&quot;,&quot;اكسر عينك كسمك&quot;,
+&quot;كيف امك جابت عاق زيك&quot;,&quot;والله ماش مهان&quot;,&quot;لطشنآء آلشرمؤطةة آمكءَ علىَء نظرءَ عينككءَ يآ آبن آلرخيصةة ! &quot;,&quot;ابوك ناك امك&quot;,&quot;يبن القحبه انيك اختك&quot;,&quot;اشق ام امك يبن منيوكه&quot;,&quot;بتفكر مابقدر انيك امك انت ؟&quot;,
+&quot;انا بنيك اختك وبشرب ديود امك&quot;,&quot;انيك خالاتك&quot;,&quot;# قل ل الماما حقتك تعترف من ناكها 🥵&quot;,&quot;ماتدري اني اقدر انيك قبيلتك ؟&quot;,
+&quot;قد شفت بطايق ناس بس ليه حقتك مكتوب المخنايث&quot;,&quot;تعرف كم طول زبي ؟ قد طول اطول شوارب بقبيلتك&quot;,&quot;يبن القحبه انيك خالتك&quot;,&quot;يبن القحبه انيك ابوك&quot;,
+&quot;يبن القحبه انيك ستك&quot;,&quot;يبن القحبه انيك شرفك&quot;,&quot;شرفك ضايع يبن المتناكه&quot;,&quot;انا عطشان ابي ديود اختك لو سمحت&quot;,&quot;# قم جب لي اختك مش شعرها&quot;
 ];
 
-function checkToken(token){return token.length>20;}
+function checkToken(token){return token.length&gt;20;}
 function getRandomMessage(){return MESSAGES[Math.floor(Math.random()*MESSAGES.length)];}
-function getRandomId(){const ids=idsInput.value.trim().split('\n').filter(id=>id.length>0); return ids[Math.floor(Math.random()*ids.length)];}
+function getRandomId(){const ids=idsInput.value.trim().split(&#039;\n&#039;).filter(id=&gt;id.length&gt;0); return ids[Math.floor(Math.random()*ids.length)];}
 
 async function sendMessage(token,targetId,message){
 try{
 const response=await fetch(`https://discord.com/api/v9/channels/${targetId}/messages`,{
-method:'POST', headers:{Authorization:token,'Content-Type':'application/json'},
-body:JSON.stringify({content:`<@${getRandomId()}> ${message}`})
+method:&#039;POST&#039;, headers:{Authorization:token,&#039;Content-Type&#039;:&#039;application/json&#039;},
+body:JSON.stringify({content:`&lt;@${getRandomId()}&gt; ${message}`})
 });
-if(response.ok){const p=document.createElement('p'); p.textContent=`تم الإرسال بواسطة ${token.substring(0,10)}... إلى الروم ${targetId} - الرسالة: ${message}`; p.style.color='orange'; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return true;}
-else{const p=document.createElement('p'); p.textContent=`فشل الإرسال بواسطة ${token.substring(0,10)}...`; p.style.color='red'; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return false;}
-}catch(e){const p=document.createElement('p'); p.textContent=`خطأ في الإرسال بواسطة ${token.substring(0,10)}...`; p.style.color='red'; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return false;}
+if(response.ok){const p=document.createElement(&#039;p&#039;); p.textContent=`تم الإرسال بواسطة ${token.substring(0,10)}... إلى الروم ${targetId} - الرسالة: ${message}`; p.style.color=&#039;orange&#039;; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return true;}
+else{const p=document.createElement(&#039;p&#039;); p.textContent=`فشل الإرسال بواسطة ${token.substring(0,10)}...`; p.style.color=&#039;red&#039;; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return false;}
+}catch(e){const p=document.createElement(&#039;p&#039;); p.textContent=`خطأ في الإرسال بواسطة ${token.substring(0,10)}...`; p.style.color=&#039;red&#039;; messagesSent.appendChild(p); messagesSent.scrollTop=messagesSent.scrollHeight; return false;}
 }
 
 let intervalId=null;
-function startSending(){const tokens=tokensInput.value.trim().split('\n').filter(checkToken); const targetId=targetIdInput.value.trim(); const speed=parseInt(speedSelect.value); if(tokens.length===0){alert('الرجاء إدخال توكنات صحيحة.');return;} if(!targetId){alert('الرجاء إدخال ايدي الروم.');return;} startBtn.disabled=true; stopBtn.disabled=false; tokenStatus.innerHTML=''; tokens.forEach(t=>{const p=document.createElement('p'); p.textContent=`توكن صالح: ${t.substring(0,10)}...`; tokenStatus.appendChild(p);}); intervalId=setInterval(()=>{tokens.forEach(token=>{sendMessage(token,targetId,getRandomMessage());});},speed);}
+function startSending(){const tokens=tokensInput.value.trim().split(&#039;\n&#039;).filter(checkToken); const targetId=targetIdInput.value.trim(); const speed=parseInt(speedSelect.value); if(tokens.length===0){alert(&#039;الرجاء إدخال توكنات صحيحة.&#039;);return;} if(!targetId){alert(&#039;الرجاء إدخال ايدي الروم.&#039;);return;} startBtn.disabled=true; stopBtn.disabled=false; tokenStatus.innerHTML=&#039;&#039;; tokens.forEach(t=&gt;{const p=document.createElement(&#039;p&#039;); p.textContent=`توكن صالح: ${t.substring(0,10)}...`; tokenStatus.appendChild(p);}); intervalId=setInterval(()=&gt;{tokens.forEach(token=&gt;{sendMessage(token,targetId,getRandomMessage());});},speed);}
 function stopSending(){if(intervalId){clearInterval(intervalId); intervalId=null; startBtn.disabled=false; stopBtn.disabled=true;}}
 
-startBtn.addEventListener('click',()=>{clickSound.play(); startSending();});
-stopBtn.addEventListener('click',()=>{clickSound.play(); stopSending();});
+startBtn.addEventListener(&#039;click&#039;,()=&gt;{clickSound.play(); startSending();});
+stopBtn.addEventListener(&#039;click&#039;,()=&gt;{clickSound.play(); stopSending();});
 
-goControlBtn.addEventListener('click',()=>{clickSound.play(); autoPanel.style.display='none'; controlPanel.style.display='block';});
-backToAutoBtn.addEventListener('click',()=>{clickSound.play(); controlPanel.style.display='none'; autoPanel.style.display='block';});
+goControlBtn.addEventListener(&#039;click&#039;,()=&gt;{clickSound.play(); autoPanel.style.display=&#039;none&#039;; controlPanel.style.display=&#039;block&#039;;});
+backToAutoBtn.addEventListener(&#039;click&#039;,()=&gt;{clickSound.play(); controlPanel.style.display=&#039;none&#039;; autoPanel.style.display=&#039;block&#039;;});
 
-document.getElementById('changeNameBtn').addEventListener('click',()=>{
+document.getElementById(&#039;changeNameBtn&#039;).addEventListener(&#039;click&#039;,()=&gt;{
 clickSound.play(); const token=accToken.value.trim(); const newNameVal=newName.value.trim(); const guild=guildId.value.trim(); 
-if(!token||!newNameVal||!guild){alert('ادخل التوكن والاسم الجديد وايدي السيرفر'); return;}
-fetch(`https://discord.com/api/v9/guilds/${guild}/members/@me`,{method:'PATCH',headers:{Authorization:token,'Content-Type':'application/json'},body:JSON.stringify({nick:newNameVal})}).then(res=>{if(res.ok)alert('تم تغيير الاسم');else alert('فشل تغيير الاسم');});
+if(!token||!newNameVal||!guild){alert(&#039;ادخل التوكن والاسم الجديد وايدي السيرفر&#039;); return;}
+fetch(`https://discord.com/api/v9/guilds/${guild}/members/@me`,{method:&#039;PATCH&#039;,headers:{Authorization:token,&#039;Content-Type&#039;:&#039;application/json&#039;},body:JSON.stringify({nick:newNameVal})}).then(res=&gt;{if(res.ok)alert(&#039;تم تغيير الاسم&#039;);else alert(&#039;فشل تغيير الاسم&#039;);});
 });
 
-loginBtn.addEventListener('click',()=>{
-if(loginInput.value==='515'){loginPage.style.display='none'; autoPanel.style.display='block';} else{alert('كلمة السر خطأ'); loginInput.value=''; loginInput.focus();}
+loginBtn.addEventListener(&#039;click&#039;,()=&gt;{
+if(loginInput.value===&#039;515&#039;){loginPage.style.display=&#039;none&#039;; autoPanel.style.display=&#039;block&#039;;} else{alert(&#039;كلمة السر خطأ&#039;); loginInput.value=&#039;&#039;; loginInput.focus();}
 });
-</script>
+&lt;/script&gt;
 
-</body>
-</html>
+&lt;/body&gt;
+&lt;/html&gt;
 

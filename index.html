@@ -231,23 +231,32 @@
  "ي جديد ي مريض لي ساعه انيك فيك يا عرص وما ترد يا متهرب انيك كسمك لو تعرف انك مهان كذا كان خلفت كلب كسمك",
  "والله انك نكبت نفسك يا ابن الشراميط ياكس اخت ام امك يبن القحبه مع واحد راح يمسك امك يضل يضرب و يمرمط و ينحر و يعذب فيها لين اخلي جمامها تهش من كثر الضرب ياكس اختك يابن الهشاش ينعال",
     ];
+const BLOCKED_USER_ID = '413466407410597888';
 
-  function getRandomMessage() {
-    return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+function getRandomMessage() {
+  return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+}
+
+targetTypeSelect.addEventListener('change', () => {
+  const val = targetTypeSelect.value;
+  if (val === 'server') {
+    targetLabel.textContent = 'اكتب ايدي الروم:';
+    targetIdInput.placeholder = 'اكتب ايدي الروم هنا';
+  } else if (val === 'group') {
+    targetLabel.textContent = 'اكتب ايدي القروب:';
+    targetIdInput.placeholder = 'اكتب ايدي القروب هنا';
+  } else {
+    targetLabel.textContent = 'اكتب ايدي الشخص (خاص):';
+    targetIdInput.placeholder = 'اكتب ايدي الشخص هنا';
   }
-
-  function checkToken(token) {
-    return token.length > 20;
-  }
-
-  let intervalId = null;
-
- const blockedId = '413466407410597888';
+});
 
 async function sendMessage(token, targetId, message) {
-  
-  if (targetId === blockedId) {
-    console.log('هذا الآيدي محظور، لن يتم الإرسال');
+  // حماية إضافية (حتى لو انكسر التحقق فوق)
+  if (
+    targetTypeSelect.value === 'private' &&
+    targetId === BLOCKED_USER_ID
+  ) {
     return;
   }
 
@@ -261,87 +270,86 @@ async function sendMessage(token, targetId, message) {
       body: JSON.stringify({ content: message })
     });
 
-    if (!response.ok) {
-      console.error('فشل الإرسال');
+    const p = document.createElement('p');
+    if (response.ok) {
+      p.textContent = `✅ تم الإرسال من: ${token.substring(0, 10)}...`;
+      p.style.color = 'orange';
+    } else {
+      p.textContent = `❌ فشل التوكن: ${token.substring(0, 10)}...`;
+      p.style.color = 'red';
     }
-  } catch (err) {
-    console.error(err);
+    messagesSent.appendChild(p);
+    messagesSent.scrollTop = messagesSent.scrollHeight;
+  } catch (e) {
+    const p = document.createElement('p');
+    p.textContent = `⚠️ خطأ في الاتصال: ${token.substring(0, 10)}...`;
+    p.style.color = 'red';
+    messagesSent.appendChild(p);
+    messagesSent.scrollTop = messagesSent.scrollHeight;
   }
 }
 
-      const p = document.createElement('p');
-      if (response.ok) {
-        p.textContent = `✅ تم الإرسال من: ${token.substring(0, 10)}...`;
-        p.style.color = 'orange';
-      } else {
-        p.textContent = `❌ فشل التوكن: ${token.substring(0, 10)}...`;
-        p.style.color = 'red';
-      }
-      messagesSent.appendChild(p);
-      messagesSent.scrollTop = messagesSent.scrollHeight;
-    } catch (e) {
-      const p = document.createElement('p');
-      p.textContent = `⚠️ خطأ في الاتصال: ${token.substring(0, 10)}...`;
-      p.style.color = 'red';
-      messagesSent.appendChild(p);
-      messagesSent.scrollTop = messagesSent.scrollHeight;
-    }
+function startSending() {
+  const tokens = tokensInput.value.trim().split('\n').filter(checkToken);
+  const targetId = targetIdInput.value.trim();
+  const mentionIdsRaw = mentionIdsInput.value.trim().split('\n').filter(id => id.trim() !== '');
+  const speed = parseInt(speedSelect.value);
+  const mentionIds = mentionIdsRaw.slice(0, 10);
+
+  // 🔴 منع الإرسال من الأساس
+  if (
+    targetTypeSelect.value === 'private' &&
+    targetId === BLOCKED_USER_ID
+  ) {
+    alert('❌ لا يمكن الإرسال لهذا الشخص');
+    return;
   }
 
-  function startSending() {
-    const tokens = tokensInput.value.trim().split('\n').filter(checkToken);
-    const targetId = targetIdInput.value.trim();
-    const mentionIdsRaw = mentionIdsInput.value.trim().split('\n').filter(id => id.trim() !== '');
-    const speed = parseInt(speedSelect.value);
-    const mentionIds = mentionIdsRaw.slice(0, 10);
-
-    if (tokens.length === 0 || !targetId || mentionIds.length === 0) {
-      alert('يرجى ملء جميع الحقول المطلوبة.');
-      return;
-    }
-
-    startBtn.disabled = true;
-    stopBtn.disabled = false;
-
-    tokenStatus.innerHTML = '';
-    tokens.forEach(t => {
-      const p = document.createElement('p');
-      p.textContent = `توكن صالح: ${t.substring(0, 10)}...`;
-      tokenStatus.appendChild(p);
-    });
-
-    intervalId = setInterval(() => {
-      tokens.forEach(token => {
-        const mentions = mentionIds.map(id => `<@${id}>`).join(' ');
-        const message = `${mentions} ${getRandomMessage()}`;
-        sendMessage(token, targetId, message);
-      });
-    }, speed);
+  if (tokens.length === 0 || !targetId || mentionIds.length === 0) {
+    alert('يرجى ملء جميع الحقول المطلوبة.');
+    return;
   }
 
-  function stopSending() {
-    if (intervalId) {
-      clearInterval(intervalId);
-      intervalId = null;
-      startBtn.disabled = false;
-      stopBtn.disabled = true;
-    }
-  }
+  startBtn.disabled = true;
+  stopBtn.disabled = false;
 
-  startBtn.addEventListener('click', startSending);
-  stopBtn.addEventListener('click', stopSending);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'F12' || e.key === 'ContextMenu') window.close();
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
-      e.preventDefault();
-      window.location.reload();
-      window.close();
-    }
+  tokenStatus.innerHTML = '';
+  tokens.forEach(t => {
+    const p = document.createElement('p');
+    p.textContent = `توكن صالح: ${t.substring(0, 10)}...`;
+    tokenStatus.appendChild(p);
   });
-  document.addEventListener('contextmenu', (e) => { e.preventDefault(); window.close(); });
-  document.addEventListener('mousedown', (e) => { if (e.button === 2 || e.button === 1) window.close(); });
-</script>
 
-</body>
-</html>
+  intervalId = setInterval(() => {
+    tokens.forEach(token => {
+      const mentions = mentionIds.map(id => `<@${id}>`).join(' ');
+      const message = `${mentions} ${getRandomMessage()}`;
+      sendMessage(token, targetId, message);
+    });
+  }, speed);
+}
+
+function stopSending() {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+  }
+}
+
+startBtn.addEventListener('click', startSending);
+stopBtn.addEventListener('click', stopSending);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'F12' || e.key === 'ContextMenu') window.close();
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+    e.preventDefault();
+    window.location.reload();
+    window.close();
+  }
+});
+document.addEventListener('contextmenu', (e) => { e.preventDefault(); window.close(); });
+document.addEventListener('mousedown', (e) => {
+  if (e.button === 2 || e.button === 1) window.close();
+});

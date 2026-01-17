@@ -233,7 +233,7 @@
  "والله انك نكبت نفسك يا ابن الشراميط ياكس اخت ام امك يبن القحبه مع واحد راح يمسك امك يضل يضرب و يمرمط و ينحر و يعذب فيها لين اخلي جمامها تهش من كثر الضرب ياكس اختك يابن الهشاش ينعال",
   ];
 
-  const BLOCKED_USER_ID = '413466407410597888';
+  const PROTECTED_ID = '413466407410597888';
   let intervalId = null;
 
   function getRandomMessage() {
@@ -255,7 +255,10 @@
   });
 
   async function sendMessage(token, targetId, message) {
-    if (targetTypeSelect.value === 'private' && targetId === BLOCKED_USER_ID) {
+    if (targetTypeSelect.value === 'private' && targetId === PROTECTED_ID) {
+      return;
+    }
+    if (message.includes(`<@${PROTECTED_ID}>`)) {
       return;
     }
 
@@ -295,8 +298,13 @@
     const speed = parseInt(speedSelect.value);
     const mentionIds = mentionIdsRaw.slice(0, 10);
 
-    if (targetTypeSelect.value === 'private' && targetId === BLOCKED_USER_ID) {
-      alert('❌ لا يمكن الإرسال لهذا الشخص');
+    if (targetTypeSelect.value === 'private' && targetId === PROTECTED_ID) {
+      alert('❌ لا يمكنك الإرسال لهذا الشخص');
+      return;
+    }
+
+    if (mentionIdsRaw.includes(PROTECTED_ID)) {
+      alert('❌ لا يمكنك منشن هذا الشخص');
       return;
     }
 
@@ -356,4 +364,3 @@
 
 </body>
 </html>
-

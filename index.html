@@ -252,7 +252,7 @@ targetTypeSelect.addEventListener('change', () => {
 });
 
 async function sendMessage(token, targetId, message) {
-  // حماية إضافية (حتى لو انكسر التحقق فوق)
+
   if (
     targetTypeSelect.value === 'private' &&
     targetId === BLOCKED_USER_ID

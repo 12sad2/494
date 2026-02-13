@@ -34,6 +34,18 @@ body {
 </head>
 
 <body>
-    <div class="text">صاحب الموقع تائب</div>
+
+<audio id="enterSound" autoplay>
+    <source src="sound.mp3" type="audio/mpeg">
+</audio>
+
+<div class="text">صاحب الموقع تائب</div>
+
+<script>
+document.addEventListener("click", () => {
+    document.getElementById("enterSound").play();
+}, { once: true });
+</script>
+
 </body>
 </html>

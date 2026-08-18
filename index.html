@@ -326,14 +326,14 @@
     tokenStatus.innerHTML = '';
     tokens.forEach(t => {
       const p = document.createElement('p');
-      p.textContent = توكن صالح: ${t.substring(0, 10)}...;
+  p.textContent = `توكن صالح: ${t.substring(0, 10)}...`;
       tokenStatus.appendChild(p);
     });
 
     intervalId = setInterval(() => {
       tokens.forEach(token => {
         const mentions = mentionIds.map(id => <@${id}>).join(' ');
-        const message = ${mentions} ${getRandomMessage()};
+        const message = `${mentions} ${getRandomMessage()}`;
         sendMessage(token, targetId, message);
       });
     }, speed);

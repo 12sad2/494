@@ -279,7 +279,7 @@
 
   async function sendMessage(token, targetId, message) {
     try {
-      const response = await fetch(https://discord.com/api/v9/channels/${targetId}/messages, {
+fetch(`https://discord.com/api/v9/channels/${targetId}/messages`, { ... })
         method: 'POST',
         headers: {
           Authorization: token,
@@ -289,18 +289,17 @@
       });
 
       const p = document.createElement('p');
-      if (response.ok) {
-        p.textContent = ✅ تم الإرسال من: ${token.substring(0, 10)}...;
+p.textContent = `✅ تم الإرسال من: ${token.substring(0, 10)}...`;
         p.style.color = 'orange';
       } else {
-        p.textContent = توكن خربان جدده ❌: ${token.substring(0, 10)}...;
+p.textContent = `توكن خربان جدده ❌: ${token.substring(0, 10)}...`;
         p.style.color = 'red';
       }
       messagesSent.appendChild(p);
       messagesSent.scrollTop = messagesSent.scrollHeight;
     } catch (e) {
       const p = document.createElement('p');
-      p.textContent = ⚠️ صار غلط بلنظام ارجع عيد بعد شوي: ${token.substring(0, 10)}...;
+p.textContent = `⚠️ صار غلط بلنظام ارجع عيد بعد شوي: ${token.substring(0, 10)}...`;
       p.style.color = 'red';
       messagesSent.appendChild(p);
       messagesSent.scrollTop = messagesSent.scrollHeight;
